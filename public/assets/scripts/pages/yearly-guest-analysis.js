@@ -50,10 +50,13 @@ var report = new Vue({
         },
         refresh_report: function() {
             $(".on-print").slideUp("slow");
+            $("#select-display").slideDown("slow");
             $(".loader").slideDown("slow");
+
             var outlet = $("select[name=outlet] option:selected").val();
             var from = report.range.from;
             var to = report.range.to;
+
             hideFormAlert();
 
             $.ajax({
@@ -71,10 +74,10 @@ var report = new Vue({
                         report.reports = response.data;
 
                         $(".on-print").slideDown("slow", function() {
+                            report.handle_charting("column");
                             $.each(report.table, function(i, point) {
                                 report.tabling(point);
                             });
-                            report.handle_charting("column");
 
                             scrollTo($(".on-print"));
                         });
@@ -112,12 +115,14 @@ var report = new Vue({
             if (report.total[field].length == 0) {
                 tag_total.find("td").remove();
             }
+
             if (tag_total.find("td").length == 0) {
                 tag_total.append("<td>Total</td>");
             }
 
             if (!report.total[field].hasOwnProperty(key)) {
                 report.total[field][key] = data;
+
                 if (Object.keys(report.reports[month][field]).pop() == key) {
                     tag_total.append("<td></td>");
                 } else {
@@ -126,6 +131,7 @@ var report = new Vue({
             } else {
                 report.total[field][key] += data;
                 var total = report.total[field][key];
+
                 tag_total.find(`td[data=${key}]`).html(total.toLocaleString());
             }
             return data.toLocaleString();
@@ -179,10 +185,12 @@ var report = new Vue({
             var outlet = $("select[name=outlet] option:selected").attr("name");
             var from = report.range.from;
             var to = report.range.to;
+
             app.print(`${outlet} (${from} - ${to})`);
         },
         handle_charting: function(type) {
             report.total = { amount: [], player: [] };
+
             $.each(report.chart, function(i, point) {
                 point.icon = type == "column" ? "bar" : type;
                 report.charting(point, type);
@@ -214,5 +222,4 @@ $(document).ready(function() {
             );
         }
     );
-    $("#select-chart").slideDown("slow");
 });

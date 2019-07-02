@@ -8,36 +8,36 @@ var report = new Vue({
             to_year: null
         },
         reports: null,
-        chart: [
-            {
-                title: "Player by Player Status",
-                hint: "player",
-                id: "nop_player_status",
-                data: "player_status",
-                field: "cmember"
+        display: {
+            based_on: "player_status",
+            by: "amount"
+        },
+        chart: {
+            player_status: {
+                player: {
+                    title: "Player by Player Status",
+                    hint: "player",
+                    field: "cmember"
+                },
+                amount: {
+                    title: "Amount by Player Status",
+                    hint: "amount",
+                    field: "ttlamt2"
+                }
             },
-            {
-                title: "Amount by Player Status",
-                hint: "amount",
-                id: "amount_player_status",
-                data: "player_status",
-                field: "ttlamt2"
-            },
-            {
-                title: "Player by Gender",
-                hint: "player",
-                id: "nop_gender",
-                data: "gender",
-                field: "cmember"
-            },
-            {
-                title: "Amount by Gender",
-                hint: "amount",
-                id: "amount_gender",
-                data: "gender",
-                field: "ttlamt2"
+            gender: {
+                player: {
+                    title: "Player by Gender",
+                    hint: "player",
+                    field: "cmember"
+                },
+                amount: {
+                    title: "Amount by Gender",
+                    hint: "amount",
+                    field: "ttlamt2"
+                }
             }
-        ]
+        }
     },
     methods: {
         refresh_outlet: function() {
@@ -51,7 +51,9 @@ var report = new Vue({
         },
         refresh_report: function() {
             $(".on-print").slideUp("slow");
+            $("#select-display").slideDown("slow");
             $(".loader").slideDown("slow");
+
             var outlet = $("select[name=outlet] option:selected").val();
             var from_month = report.range.from_month;
             var to_month = report.range.to_month;
@@ -74,10 +76,7 @@ var report = new Vue({
                         report.reports = response.data;
 
                         $(".on-print").slideDown("slow", function() {
-                            $.each(report.chart, function(i, point) {
-                                report.charting(point);
-                            });
-
+                            report.charting();
                             scrollTo($(".on-print"));
                         });
                     } else {
@@ -89,26 +88,31 @@ var report = new Vue({
             });
         },
         charting: function(spec) {
-            var data = report.reports[spec.data];
-            var categories = [];
-            var obj = {};
-            var series = [];
+            var based_on = report.display.based_on;
+            var by = report.display.by;
+            var spec = report.chart[based_on][by];
+            var data = report.reports[based_on];
 
-            $.each(data, function(i, point) {
-                categories.push(i);
-                $.each(point, function(j, val) {
-                    if (!obj.hasOwnProperty(j)) {
-                        obj[j] = { name: j, data: [] };
+            var obj = {};
+            var categories = [];
+            $.each(data, function(date, point) {
+                categories.push(`${date.substr(4)}-${date.substr(0, 4)}`);
+
+                $.each(point, function(field, value) {
+                    if (!obj.hasOwnProperty(field)) {
+                        obj[field] = { name: field, data: [] };
                     }
-                    obj[j].data.push(parseFloat(val[spec.field]));
+
+                    obj[field].data.push(parseFloat(value[spec.field]));
                 });
             });
 
+            var series = [];
             $.each(obj, function(i, point) {
                 series.push(point);
             });
 
-            Highcharts.chart(spec.id, {
+            Highcharts.chart("chart-display", {
                 chart: {
                     type: "line"
                 },
@@ -136,7 +140,14 @@ var report = new Vue({
             var outlet = $("select[name=outlet] option:selected").attr("name");
             var from = `${report.range.from_month}/${report.range.from_year}`;
             var to = `${report.range.to_month}/${report.range.to_year}`;
+
             app.print(`${outlet} (${from} - ${to})`);
+        },
+        handle_display: function(display) {
+            $.each(display, function(index, value) {
+                report.display[index] = value;
+            });
+            report.charting();
         }
     }
 });

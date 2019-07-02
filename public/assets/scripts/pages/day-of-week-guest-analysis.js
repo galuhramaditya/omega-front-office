@@ -29,6 +29,7 @@ var report = new Vue({
         refresh_report: function() {
             $(".on-print").slideUp("slow");
             $(".loader").slideDown("slow");
+
             var outlet = $("select[name=outlet] option:selected").val();
             var from = $("input[name=date]")
                 .data("daterangepicker")
@@ -47,14 +48,13 @@ var report = new Vue({
                 },
                 success: function(response) {
                     $(".loader").slideUp("slow");
+
                     if (response.hasOwnProperty("data")) {
                         $("tr#total td").remove();
                         report.total = [];
                         report.reports = response.data;
 
                         $(".on-print").slideDown("slow", function() {
-                            $("[vue-data]").slideDown("slow");
-
                             $.each(report.chart, function(i, point) {
                                 report.charting(point.id, point.field);
                             });
@@ -88,9 +88,11 @@ var report = new Vue({
             } else {
                 report.total[key] += data;
                 var total = report.total[key];
+
                 if (avg) {
                     total /= index + 1;
                 }
+
                 tag_total
                     .find("td[data=" + key + "]")
                     .html(total.toLocaleString());
@@ -143,6 +145,7 @@ var report = new Vue({
             var to = $("input[name=date]")
                 .data("daterangepicker")
                 .endDate.format("DD/MM/YYYY");
+
             app.print(`${outlet} (${from} - ${to})`);
         }
     }

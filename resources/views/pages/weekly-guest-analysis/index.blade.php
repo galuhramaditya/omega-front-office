@@ -2,6 +2,11 @@
 
 @section('css')
     <link href="/assets/css/dangrossman-daterangepicker.css" rel="stylesheet" type="text/css" />    
+    <style>
+        #select-display{
+            margin-bottom: 20px;
+        }
+    </style>
 @endsection
 
 @section('toolbar')
@@ -25,6 +30,7 @@
         <!-- END LOADER -->
         <div class="on-print">
             @include("pages.weekly-guest-analysis.chart")
+            @include("pages.weekly-guest-analysis.select-display")
         </div>
     </div>
     <!-- END CONTENT BODY -->

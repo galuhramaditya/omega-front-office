@@ -6,11 +6,11 @@
         .daterangepicker .custom-range-inputs input {
             pointer-events: none;
         }
-        #select-chart{
+        #select-display{
             margin: 50px 0; 
         }
-        #select-chart .btn{
-            width: 250px;
+        #select-display .btn-group{
+            width: 500px;
         }
     </style>
 @endsection
@@ -36,16 +36,7 @@
         <!-- END LOADER -->
         <div class="on-print">
             @include("pages.yearly-guest-analysis.table")
-        
-            <div class="row display-hide" id="select-chart">
-                <div class="col-xs-12 text-center">
-                    <div class="btn-group">
-                        <button class="btn red btn-lg" v-on:click.prevent="report.handle_charting('column')"><i class="fa fa-bar-chart"></i> Chart By Column</button>
-                        <button class="btn purple btn-lg" v-on:click.prevent="report.handle_charting('line')"><i class="fa fa-line-chart"></i> Chart By Line</button>
-                    </div>
-                </div>
-            </div>
-            
+            @include("pages.yearly-guest-analysis.select-display")
             @include("pages.yearly-guest-analysis.chart")
         </div>
     </div>

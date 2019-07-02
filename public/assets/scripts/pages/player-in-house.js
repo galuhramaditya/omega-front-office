@@ -17,6 +17,7 @@ var report = new Vue({
         refresh_report: function() {
             $(".on-print").slideUp("slow");
             $(".loader").slideDown("slow");
+
             var outlet = $("select[name=outlet] option:selected").val();
             var date = $("input[name=date]")
                 .data("datepicker")
@@ -32,6 +33,7 @@ var report = new Vue({
                 },
                 success: function(response) {
                     $(".loader").slideUp("slow");
+
                     if (response.hasOwnProperty("data")) {
                         report.reports = response.data;
 
@@ -49,6 +51,7 @@ var report = new Vue({
             var date = $("input[name=date]")
                 .data("datepicker")
                 .getFormattedDate("dd/mm/yyyy");
+
             app.print(`${outlet} (${date})`);
         }
     }

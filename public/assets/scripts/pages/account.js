@@ -12,6 +12,7 @@ var account = new Vue({
         handle_self_edit: function() {
             var form = $("[form-action=self-edit]");
             var username = form.find("input[name=username]").val();
+
             hideFormAlert();
 
             $.ajax({
@@ -40,6 +41,7 @@ var account = new Vue({
             var new_password_confirmation = form
                 .find("input[name=new_password_confirmation]")
                 .val();
+
             hideFormAlert();
 
             $.ajax({
@@ -71,6 +73,7 @@ var account = new Vue({
                 .find("input[name=password_confirmation]")
                 .val();
             var permission = form.find("input[name=permission]:checked").val();
+
             hideFormAlert();
 
             $.ajax({
@@ -95,6 +98,7 @@ var account = new Vue({
         },
         handle_edit: function(id, username) {
             refreshModal(`edit-${id}`, false);
+
             bootbox.confirm(`are you sure want to edit ${username}?`, function(
                 result
             ) {
@@ -128,6 +132,7 @@ var account = new Vue({
         },
         handle_delete: function(id, username) {
             refreshModal(`delete-${id}`, false);
+
             bootbox.confirm(
                 `are you sure want to delete ${username}?`,
                 function(result) {

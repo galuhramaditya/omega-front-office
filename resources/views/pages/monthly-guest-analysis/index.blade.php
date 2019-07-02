@@ -6,6 +6,9 @@
         .daterangepicker .custom-range-inputs input {
             pointer-events: none;
         }
+        #select-display{
+            margin-bottom: 20px;
+        }
     </style>
 @endsection
 
@@ -30,6 +33,7 @@
         <!-- END LOADER -->
         <div class="on-print">
             @include("pages.monthly-guest-analysis.chart")
+            @include("pages.monthly-guest-analysis.select-display")
         </div>
     </div>
     <!-- END CONTENT BODY -->

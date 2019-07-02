@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
                             <a v-on:click.prevent="handle_logout()">
-                                <i class="icon-logout"></i> Log Out </a>
+                                <i class="fa fa-sign-out"></i> Log Out </a>
                         </li>
                     </ul>
                 </li>

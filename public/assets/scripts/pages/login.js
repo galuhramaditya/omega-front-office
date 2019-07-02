@@ -5,6 +5,7 @@ var app = new Vue({
             var form = $("[form-action=login]");
             var username = form.find("input[name=username]").val();
             var password = form.find("input[name=password]").val();
+
             hideFormAlert();
 
             $.ajax({
