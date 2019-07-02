@@ -173,6 +173,10 @@ class ReportService
     {
         $results = $this->reportRepository->playerInHouse($outletCd, $refdt1, $refdt2, $usrid, $type);
 
+        if (!$results["detail"] || !$results["summary"]) {
+            $results = null;
+        }
+
         return $results;
     }
 

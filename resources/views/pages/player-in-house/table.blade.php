@@ -26,20 +26,20 @@
                             <th>Balance</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="(data, index) in report.reports">
+                    <tbody v-if="report.reports != null">
+                        <tr v-for="(data, index) in report.reports.detail">
                             <td>@{{index + 1}}</td>
-                            <td></td>
+                            <td>@{{data.bagtag}}</td>
                             <td>@{{data.holes}}</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>@{{data.gsttype}}</td>
+                            <td>@{{data.gstcd}}</td>
+                            <td>@{{data.sex}}</td>
+                            <td>@{{data.fstnm}}</td>
+                            <td>@{{data.teetime}}</td>
+                            <td>@{{data.cintime}}</td>
+                            <td>@{{data.cOuttime}}</td>
+                            <td>@{{parseFloat(data.orgamt1).toLocaleString()}}</td>
+                            <td>@{{parseFloat(data.rmnamt1).toLocaleString()}}</td>
                         </tr>
                     </tbody>
                 </table>

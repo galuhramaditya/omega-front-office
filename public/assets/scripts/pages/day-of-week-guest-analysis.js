@@ -103,7 +103,6 @@ var report = new Vue({
             $.each(data, function(i, point) {
                 point.name = point.dayname;
                 point.y = point[field];
-                point.data = point.y.toLocaleString();
             });
 
             Highcharts.chart(id, {
@@ -115,7 +114,7 @@ var report = new Vue({
                 },
                 title: false,
                 tooltip: {
-                    pointFormat: "<b>{point.data}</b> ({point.percentage:.2f}%)"
+                    pointFormat: "<b>{point.y}</b> ({point.percentage:.2f}%)"
                 },
                 plotOptions: {
                     pie: {

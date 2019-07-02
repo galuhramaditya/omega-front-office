@@ -20,7 +20,7 @@ var report = new Vue({
             var outlet = $("select[name=outlet] option:selected").val();
             var date = $("input[name=date]")
                 .data("datepicker")
-                .getFormattedDate("dd/mm/yyyy");
+                .getFormattedDate("mm/dd/yyyy");
 
             $.ajax({
                 url: "/report/player-in-house",

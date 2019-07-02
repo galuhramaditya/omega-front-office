@@ -157,6 +157,9 @@ $(document).ready(function() {
                         .endOf("year")
                 ]
             },
+            startDate: moment()
+                .startOf("year")
+                .add(1, "month"),
             expanded: true,
             orientation: "left",
             forceUpdate: true,

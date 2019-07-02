@@ -42,7 +42,10 @@ class Report
 
     public static function playerInHouse(string $outletCd, string $refdt1, string $refdt2, string $usrid, string $type)
     {
-        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_02100 ?,?,?,?,?', [$outletCd, $refdt1, $refdt2, $usrid, $type]);
+        $results = [
+            "detail" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_02000r ?,?,?,?,?', [$outletCd, $refdt1, $refdt2, $usrid, $type]),
+            "summary" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_02100 ?,?,?,?,?', [$outletCd, $refdt1, $refdt2, $usrid, $type]),
+        ];
 
         return $results;
     }
