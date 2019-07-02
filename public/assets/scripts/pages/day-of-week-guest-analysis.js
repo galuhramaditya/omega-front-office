@@ -2,7 +2,7 @@ var report = new Vue({
     data: {
         outlet: null,
         reports: null,
-        total: [],
+        total: null,
         chart: [
             {
                 title: "Total Average Player",
@@ -63,10 +63,7 @@ var report = new Vue({
                         });
                     } else {
                         bootbox.alert(
-                            "data doesn't exist in range from " +
-                                from +
-                                " to " +
-                                to
+                            `data doesn't exist in range from ${from} to ${to}`
                         );
                     }
                 }
@@ -147,7 +144,7 @@ var report = new Vue({
             var to = $("input[name=date]")
                 .data("daterangepicker")
                 .endDate.format("DD/MM/YYYY");
-            app.print(outlet + " (" + from + " - " + to + ") ");
+            app.print(`${outlet} (${from} - ${to})`);
         }
     }
 });
@@ -166,10 +163,12 @@ $(document).ready(function() {
             "Last Week": [
                 moment()
                     .subtract(1, "week")
-                    .startOf("week"),
+                    .startOf("week")
+                    .add(1, "days"),
                 moment()
                     .subtract(1, "week")
                     .endOf("week")
+                    .add(1, "days")
             ],
             "Last 30 Days": [moment().subtract(29, "days"), moment()],
             "This Month": [moment().startOf("month"), moment().endOf("month")],
@@ -186,12 +185,12 @@ $(document).ready(function() {
         },
         locale: {
             format: "DD/MM/YYYY",
-            customRangeLabel: "Custom"
+            customRangeLabel: "Custom",
+            firstDay: 1
         },
+        alwaysShowCalendars: true,
         startDate: moment().startOf("month"),
         showDropdowns: true,
-        opens: "right"
+        opens: "center"
     });
-    $(".on-print").slideUp("slow");
-    $(".loader").fadeOut("slow");
 });

@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-table font-dark"></i>
-                    <span class="caption-subject bold uppercase">Day of Week Guest Analysis</span>
+                    <span class="caption-subject bold uppercase font-dark">Day of Week Guest Analysis</span>
                 </div>
             </div>
             <div class="portlet-body table-scrollable">
@@ -45,7 +45,7 @@
                             <th>%</th>
                         </tr>
                     </thead>
-                    <tbody vue-data>
+                    <tbody>
                         <tr v-for="(value, index) in report.reports">
                             <td>@{{value.dayname}}</td>
                             <td>@{{report.output("nofmbram", index)}}</td>
@@ -69,7 +69,7 @@
                             <td>@{{report.output("amttotal", index)}}</td>
                             <td>@{{report.output("amtavrg", index, true)}}</td>
                         </tr>
-                        <tr id="total" class="active" style="font-weight: bold">
+                        <tr id="total" class="active bold">
                         </tr>
                     </tbody>
                 </table>

@@ -9,12 +9,12 @@
             <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
             <label class="control-label visible-ie8 visible-ie9">Username</label>
             <input class="form-control" type="text" autocomplete="off" placeholder="Username" name="username" />
-            <div class="display-hide help-block text-danger" help-name="username"></div>
+            <div class="help-block font-red" help-name="username"></div>
         </div>
         <div class="form-group">
             <label class="control-label visible-ie8 visible-ie9">Password</label>
             <input class="form-control" type="password" autocomplete="off" placeholder="Password" name="password" />
-            <div class="help-block text-danger display-hide" help-name="password"></div>
+            <div class="help-block font-red" help-name="password"></div>
         </div>
         <div class="form-actions">
             <button type="submit" class="btn green uppercase">Login</button>

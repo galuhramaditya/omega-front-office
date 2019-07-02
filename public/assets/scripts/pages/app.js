@@ -1,6 +1,7 @@
 var app = new Vue({
     el: "#app",
     data: {
+        container: null,
         user: {
             id: null,
             username: null,
@@ -18,14 +19,34 @@ var app = new Vue({
                 link: "/report/day-of-week-guest-analysis"
             },
             {
+                title: "Weekly Guest Analysis",
+                icon: "book",
+                link: "/report/weekly-guest-analysis"
+            },
+            {
                 title: "Monthly Guest Analysis",
                 icon: "book",
                 link: "/report/monthly-guest-analysis"
             },
             {
-                title: "Weekly Guest Analysis",
+                title: "Yearly Guest Analysis",
                 icon: "book",
-                link: "/report/weekly-guest-analysis"
+                link: "/report/yearly-guest-analysis"
+            },
+            {
+                title: "Player in House",
+                icon: "file",
+                link: "/report/player-in-house"
+            },
+            {
+                title: "Balance Sheet",
+                icon: "file",
+                link: "/report/balance-sheet"
+            },
+            {
+                title: "Account",
+                icon: "user",
+                link: "/user/account"
             }
         ]
     },
@@ -47,6 +68,9 @@ var app = new Vue({
                 },
                 success: function(response) {
                     app.user = response.data;
+                    $("[vue-data]").slideDown("slow");
+                    $(".on-print").slideUp("slow");
+                    $(".loader").fadeOut("slow");
                 },
                 error: function() {
                     app.handle_logout();
@@ -79,5 +103,4 @@ var app = new Vue({
 
 $(document).ready(function() {
     app.refresh_user();
-    $("[vue-data]").slideDown("slow");
 });

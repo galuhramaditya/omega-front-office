@@ -17,6 +17,6 @@ class OutletController extends Controller
     public function get()
     {
         $data = $this->outletService->get();
-        return Response::success("successfully get outlet data", $data);
+        return Response::success("successfully get outlet datas", $data);
     }
 }

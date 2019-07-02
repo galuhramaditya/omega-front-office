@@ -11,15 +11,15 @@
                 <form class="form-horizontal form-row-seperated" v-on:submit.prevent="report.refresh_report()">
                     <div class="form-body">
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Outlet</label>
+                            <label class="col-md-3 control-label">Company Code</label>
                             <div class="col-md-5">
-                                <select name="outlet" class="bs-select form-control">
-                                    <option v-for="outlet in report.outlet" :value="outlet.outletcd" :name="outlet.outletnm">@{{ outlet.outletcd }} - @{{ outlet.outletnm }}</option>
+                                <select name="company" class="bs-select form-control">
+                                    <option v-for="cocd in report.company" :value="cocd">@{{ cocd }}</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Date Range</label>
+                            <label class="col-md-3 control-label">Month</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="date">
                             </div>
@@ -31,7 +31,9 @@
                                 <button type="submit" class="btn green">
                                     <i class="fa fa-check"></i> Submit
                                 </button>
-                                <button type="button" class="btn default">Cancel</button>
+                                <button type="button" class="btn yellow">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
                             </div>
                         </div>
                     </div>

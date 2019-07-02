@@ -16,10 +16,30 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->validation = new Validation([
+        $this->validation = Validation::rules([
             "login" => [
                 "username" => "required",
                 "password" => "required",
+            ],
+            "selfEdit" => [
+                'token'        => 'required',
+            ],
+            "changeSelfPassword" => [
+                'new_password'    => 'required',
+                'new_password_confirmation'    => 'required|same:new_password',
+            ],
+            "create" => [
+                'username'      => 'required|unique:users',
+                'password'      => 'required',
+                'password_confirmation' => 'required|same:password',
+                'permission'    => 'required|in:admin,user'
+            ],
+            "edit" => [
+                'id'  => 'required',
+                'permission' => "required"
+            ],
+            "delete" => [
+                'id'  => 'required'
             ]
         ]);
     }
@@ -28,7 +48,7 @@ class UserController extends Controller
     {
         $validate = $this->validation->validate($request);
         if ($validate->fails()) {
-            return $validate->errors("input is not complete");
+            return $validate->errors();
         }
 
         $user = $this->userService->findOneBy($request->all());
@@ -43,113 +63,81 @@ class UserController extends Controller
 
     public function current(Request $request)
     {
-        $current = $this->userService->findOneBy($request->except("token"));
-        return Response::success("succesfully get current user data", $current);
+        return Response::success("succesfully get current user data", $request->token);
     }
 
-    // public function data()
-    // {
-    //     return $this->userService->get();
-    // }
+    public function get()
+    {
+        $get = $this->userService->get();
+        return Response::success("successfully get users data", $get);
+    }
 
-    // public function register(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'username'      => 'required|unique:users',
-    //         'password'      => 'required',
-    //         'password_confirmation' => 'required|same:password',
-    //         'permission'    => 'required|in:admin,user'
-    //     ]);
-    //     $user = $this->userService->create($request->all());
+    public function selfEdit(Request $request)
+    {
+        $validate = $this->validation->validate($request, ['username'  => 'required|unique:users,username,' . $request->token->id,]);
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
 
-    //     if ($user) {
-    //         return $this->sendSuccessResponse($user, 'User has been created successfully');
-    //     }
+        $editSelf = $this->userService->update($request->except("token"), $request->token->id);
+        if ($editSelf) {
+            return Response::success('successfully editing self data', $editSelf);
+        }
+    }
 
-    //     return $this->sendErrorResponse("error");
-    // }
+    public function changeSelfPassword(Request $request)
+    {
+        $validate = $this->validation->validate($request);
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
 
-    // public function update(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'id'        => 'required',
-    //         'username'  => 'required|unique:users,username,' . $request->id,
-    //         'permission' => 'required'
-    //     ]);
+        $changeSelfPassword = $this->userService->update(["password" => $request->new_password], $request->token->id);
 
-    //     $data   = $request->all();
-    //     $self   = $this->userService->findOneBy(["id" => $request->id])->api_token == $request->api_token;
-    //     $data['api_token'] = null;
+        if ($changeSelfPassword) {
+            return Response::success('successfully changing self password', $changeSelfPassword);
+        }
+    }
 
-    //     if ($self) {
-    //         unset($data['permission']);
-    //     }
+    public function create(Request $request)
+    {
+        $validate = $this->validation->validate($request);
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
 
-    //     $user = $this->userService->update($data, $request->id);
+        $create = $this->userService->create($request->all());
 
-    //     if ($user) {
-    //         return $this->sendSuccessResponse(["self" => $self], 'User has been updated successfully');
-    //     }
+        if ($create) {
+            return Response::success('successfully creating new user', $create);
+        }
+    }
 
-    //     return $this->sendErrorResponse("error");
-    // }
+    public function edit(Request $request)
+    {
+        $validate = $this->validation->validate($request);
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
 
-    // public function changePassword(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'new_password'    => 'required',
-    //         'new_password_confirmation'    => 'required|same:new_password',
-    //     ]);
+        $edit = $this->userService->update($request->except("token"), $request->id);
 
-    //     $user = $this->userService->findOneBy(["id" => $request->id, "password" => $request->old_password]);
-    //     if ($user == null) {
-    //         return $this->sendErrorResponse("something error", ["old_password" => "old password is wrong"]);
-    //     }
+        if ($edit) {
+            return Response::success('successfully editing user data', $edit);
+        }
+    }
 
-    //     $self               = $user->api_token == $request->api_token;
-    //     $data               = $request->all();
-    //     $data["password"]   = $data["new_password"];
-    //     unset($data['new_password'], $data['new_password_confirmation'], $data['old_password']);
-    //     $data['api_token']  = null;
+    public function delete(Request $request)
+    {
+        $validate = $this->validation->validate($request);
+        if ($validate->fails()) {
+            return $validate->errors();
+        }
 
-    //     $user = $this->userService->update($data, $request->id);
+        $delete = $this->userService->delete($request->id);
 
-    //     if ($user) {
-    //         return $this->sendSuccessResponse(['self' => $self], 'User has been updated successfully');
-    //     }
-
-    //     return $this->sendErrorResponse("error");
-    // }
-
-    // public function delete(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         'id'  => 'required',
-    //     ]);
-    //     $user = $this->userService->delete($request->id);
-
-    //     if ($user) {
-    //         return $this->sendSuccessResponse($user, 'User has been deleted successfully');
-    //     }
-
-    //     return $this->sendErrorResponse("error");
-    // }
-
-    // public function logout(Request $request)
-    // {
-    //     if ($request->has('api_token')) {
-
-    //         $user = $this->userService->findOneBy(['api_token' => $request->api_token]);
-
-    //         if ($user) {
-    //             $update = $this->userService->update(['api_token' => null], $user->id);
-
-    //             return $this->sendSuccessResponse([], 'User has been updated');
-    //         } else {
-    //             return $this->sendErrorResponse('User could not be found');
-    //         }
-    //     } else {
-    //         return $this->sendErrorResponse('Api token is required');
-    //     }
-    // }
+        if ($delete) {
+            return Response::success('successfully deleting user', $delete);
+        }
+    }
 }

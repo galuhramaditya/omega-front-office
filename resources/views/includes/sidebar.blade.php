@@ -21,7 +21,7 @@
             <!-- END SIDEBAR TOGGLER BUTTON -->
             <li class="nav-item start" v-for="menu in menu" :class="menu.link == path ? 'active' : ''">
                 <a :href="menu.link" class="nav-link ">
-                    <i class="fa" :class="'fa-' + menu.icon"></i>
+                    <i class="fa" :class=`fa-${menu.icon}`></i>
                     <span class="title">@{{ menu.title }}</span>
                 </a>
             </li>

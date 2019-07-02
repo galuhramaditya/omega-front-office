@@ -4,8 +4,8 @@
         <div class="portlet light bordered">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-pie-chart font-green-haze"></i>
-                    <span class="caption-subject bold uppercase font-green-haze"> @{{ value.title }} </span>
+                    <i class="fa fa-pie-chart font-yellow"></i>
+                    <span class="caption-subject bold uppercase font-yellow"> @{{ value.title }} </span>
                 </div>
             </div>
             <div class="portlet-body">

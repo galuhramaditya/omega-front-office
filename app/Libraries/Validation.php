@@ -8,28 +8,40 @@ use App\Libraries\Response;
 
 class Validation
 {
-    private $rules;
-    private $validator;
+    private static $ruler;
+    private static $validator;
 
-    public function __construct(array $rules)
+    public static function rules(array $ruler)
     {
-        $this->rules = $rules;
+        self::$ruler = $ruler;
+        return (new self);
     }
 
-    public function validate(Request $request)
+    public function validate(Request $request, array $rules = [])
     {
-        $func = debug_backtrace()[1]['function'];
-        $this->validator = Validator::make($request->all(), $this->rules[$func]);
-        return $this;
+        if (!empty(self::$ruler)) {
+            $func = debug_backtrace()[1]['function'];
+            $ruler = self::$ruler[$func];
+
+            foreach ($rules as $key => $val) {
+                $ruler[$key] = $val;
+            }
+        } else {
+            $ruler = $rules;
+        }
+
+        self::$validator = Validator::make($request->all(), $ruler);
+
+        return (new self);
     }
 
-    public function fails(Type $var = null)
+    public function fails()
     {
-        return $this->validator->fails();
+        return self::$validator->fails();
     }
 
-    public function errors($message)
+    public function errors()
     {
-        return Response::error($message, $this->validator->errors());
+        return Response::error("request is not complete", self::$validator->errors());
     }
 }

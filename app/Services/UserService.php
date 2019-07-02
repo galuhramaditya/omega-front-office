@@ -31,17 +31,24 @@ class UserService
 
     public function create(array $data)
     {
-        $items = [];
-        $items['username']  = $data['username'];
-        $items['password']  = sha1($this->salt . $data['password']);
-        $items['admin']     = $data['permission'] == 'admin';
+        $this->passingData($data);
 
-        $results = $this->userRepository->create($items);
-
-        return $results;
+        return $this->userRepository->create($data);
     }
 
     public function update(array $data, string $id)
+    {
+        $this->passingData($data);
+
+        return $this->userRepository->update($data, $id);
+    }
+
+    public function delete(string $id)
+    {
+        return $this->userRepository->delete($id);
+    }
+
+    private function passingData(array &$data)
     {
         if (array_key_exists('permission', $data)) {
             $data['admin']  = $data['permission'] == 'admin';
@@ -51,12 +58,5 @@ class UserService
         if (array_key_exists('password', $data)) {
             $data['password']   = sha1($this->salt . $data['password']);
         }
-
-        return $this->userRepository->update($data, $id);
-    }
-
-    public function delete(string $id)
-    {
-        return $this->userRepository->delete($id);
     }
 }

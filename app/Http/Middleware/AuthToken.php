@@ -23,13 +23,13 @@ class AuthToken
             $user = $this->userService->findOneBy($token);
 
             if ($user) {
-                $request->merge($user->toArray());
+                $request->merge(["token" => $user]);
                 return $next($request);
             }
 
             return Response::error("token is not valid");
         } catch (\Throwable $e) {
-            return Response::error("token required");
+            return Response::error("token is required");
         }
     }
 }

@@ -19,9 +19,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-3 control-label">Date Range</label>
+                            <label class="col-md-3 control-label">Year Range</label>
                             <div class="col-md-5">
                                 <input type="text" class="form-control" name="date">
+                                <div class="help-block font-red" help-name="date"></div>
                             </div>
                         </div>
                     </div>
@@ -31,7 +32,9 @@
                                 <button type="submit" class="btn green">
                                     <i class="fa fa-check"></i> Submit
                                 </button>
-                                <button type="button" class="btn default">Cancel</button>
+                                <button type="button" class="btn yellow">
+                                    <i class="fa fa-times"></i> Cancel
+                                </button>
                             </div>
                         </div>
                     </div>

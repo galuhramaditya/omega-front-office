@@ -1,16 +1,19 @@
 @extends('layouts.app')
 
+@section('css')
+    <link href="/assets/css/sensortower-daterangepicker.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .daterangepicker .custom-range-inputs input {
+            pointer-events: none;
+        }
+    </style>
+@endsection
+
 @section('toolbar')
     <div class="btn-group pull-right">
-        <button type="button" class="btn green btn-sm btn-outline dropdown-toggle" data-toggle="dropdown"> Actions
-            <i class="fa fa-angle-down"></i>
+        <button type="button" class="btn green btn-sm btn-outline" v-on:click.prevent="report.print()">
+                <i class="fa fa-print"></i> Print
         </button>
-        <ul class="dropdown-menu pull-right" role="menu">
-            <li>
-                <a v-on:click.prevent="report.print()">
-                    <i class="icon-bag"></i>Save as PDF</a>
-            </li>
-        </ul>
     </div>
 @endsection
 
@@ -21,7 +24,7 @@
         <h1 class="page-title"> Report System
         </h1>
         <!-- END PAGE TITLE-->
-        @include("pages.monthly-guest-analysis.select")
+        @include("pages.monthly-guest-analysis.filter")
         <!-- LOADER -->
         @include("includes.loader")
         <!-- END LOADER -->
@@ -33,5 +36,7 @@
 @endsection
 
 @section('scripts')
+    <script src="/assets/scripts/global/knockout-3.5.0.js" type="text/javascript"></script>
+    <script src="/assets/scripts/global/sensortower-daterangepicker.min.js" type="text/javascript"></script>
     <script src="/assets/scripts/pages/monthly-guest-analysis.js" type="text/javascript"></script>
 @endsection

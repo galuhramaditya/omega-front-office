@@ -13,7 +13,7 @@ class Report
         return $results;
     }
 
-    public static function monthlyGuestAnalysis(string $outletCd, string $m1, string $m2, string $y1, string $y2)
+    public static function weeklyGuestAnalysis(string $outletCd, string $date1, string $date2)
     {
         $results = [
             "player_status" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71000r ?,?,?', [$outletCd, $date1, $date2]),
@@ -23,12 +23,33 @@ class Report
         return $results;
     }
 
-    public static function weeklyGuestAnalysis(string $outletCd, string $date1, string $date2)
+    public static function monthlyGuestAnalysis(string $outletCd, string $m1, string $m2, string $y1, string $y2)
     {
         $results = [
-            "player_status" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71000r ?,?,?', [$outletCd, $date1, $date2]),
-            "gender" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71100r ?,?,?', [$outletCd, $date1, $date2])
+            "player_status" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71200r ?,?,?,?,?', [$outletCd, $m1, $m2, $y1, $y2]),
+            "gender" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71120r ?,?,?,?,?', [$outletCd, $m1, $m2, $y1, $y2])
         ];
+
+        return $results;
+    }
+
+    public static function yearlyGuestAnalysis(string $outletCd, string $year1, string $year2, string $fb)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_71500r ?,?,?,?', [$outletCd, $year1, $year2, $fb]);
+
+        return $results;
+    }
+
+    public static function playerInHouse(string $outletCd, string $refdt1, string $refdt2, string $usrid, string $type)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_02100 ?,?,?,?,?', [$outletCd, $refdt1, $refdt2, $usrid, $type]);
+
+        return $results;
+    }
+
+    public static function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
+    {
+        $results = DB::connection("sqlsrv2")->select('SET NOCOUNT ON; EXEC dbo.GlrBS ?,?,?,?,?,?', [$cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType]);
 
         return $results;
     }

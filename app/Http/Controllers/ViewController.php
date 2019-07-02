@@ -36,20 +36,33 @@ class ViewController extends Controller
         return View::make('pages.day-of-week-guest-analysis.index');
     }
 
-    public function monthlyGuestAnalysis()
-    {
-        return View::make('pages.monthly-guest-analysis.index');
-    }
-
     public function weeklyGuestAnalysis()
     {
         return View::make('pages.weekly-guest-analysis.index');
     }
 
-    // public function account(Request $request)
-    // {
-    //     $users = $this->userService->get();
-    //     $user   = $this->userService->findOneBy(["api_token" => $request->api_token]);
-    //     return View::make('pages.account', ['users' => $users, 'admin' => $user->admin, "username" => $user->username]);
-    // }
+    public function monthlyGuestAnalysis()
+    {
+        return View::make('pages.monthly-guest-analysis.index');
+    }
+
+    public function yearlyGuestAnalysis()
+    {
+        return View::make('pages.yearly-guest-analysis.index');
+    }
+
+    public function playerInHouse()
+    {
+        return View::make('pages.player-in-house.index');
+    }
+
+    public function balanceSheet()
+    {
+        return View::make('pages.balance-sheet.index');
+    }
+
+    public function account(Request $request)
+    {
+        return View::make('pages.account.index');
+    }
 }

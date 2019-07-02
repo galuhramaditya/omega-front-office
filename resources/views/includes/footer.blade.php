@@ -13,7 +13,6 @@
 <script src="/assets/scripts/global/vue.min.js" type="text/javascript"></script>
 <script src="/assets/scripts/global/highcharts.js" type="text/javascript"></script>
 <script src="/assets/scripts/global/moment.min.js" type="text/javascript"></script>
-<script src="/assets/scripts/global/daterangepicker.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="/assets/scripts/layouts/app.min.js" type="text/javascript"></script>

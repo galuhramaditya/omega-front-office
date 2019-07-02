@@ -1,6 +1,12 @@
 var report = new Vue({
     data: {
         outlet: null,
+        range: {
+            from_month: null,
+            to_month: null,
+            from_year: null,
+            to_year: null
+        },
         reports: null,
         chart: [
             {
@@ -47,16 +53,20 @@ var report = new Vue({
             $(".on-print").slideUp("slow");
             $(".loader").slideDown("slow");
             var outlet = $("select[name=outlet] option:selected").val();
-            var from = get_startDate("input[name=date]", "DD-MM-YYYY");
-            var to = get_endDate("input[name=date]", "DD-MM-YYYY");
+            var from_month = report.range.from_month;
+            var to_month = report.range.to_month;
+            var from_year = report.range.from_year;
+            var to_year = report.range.to_year;
 
             $.ajax({
-                url: "/report/weekly-guest-analysis",
+                url: "/report/monthly-guest-analysis",
                 type: "POST",
                 data: {
                     outlet: outlet,
-                    from: from,
-                    to: to
+                    from_month: from_month,
+                    to_month: to_month,
+                    from_year: from_year,
+                    to_year: to_year
                 },
                 success: function(response) {
                     $(".loader").slideUp("slow");
@@ -72,10 +82,7 @@ var report = new Vue({
                         });
                     } else {
                         bootbox.alert(
-                            "data doesn't exist in range from " +
-                                from +
-                                " to " +
-                                to
+                            `data doesn't exist in range from ${from_month}-${from_year} to ${to_month}-${to_year}`
                         );
                     }
                 }
@@ -88,7 +95,7 @@ var report = new Vue({
             var series = [];
 
             $.each(data, function(i, point) {
-                categories.push(moment(i).format("DD-MM-YYYY"));
+                categories.push(i);
                 $.each(point, function(j, val) {
                     if (!obj.hasOwnProperty(j)) {
                         obj[j] = { name: j, data: [] };
@@ -119,10 +126,7 @@ var report = new Vue({
                 },
                 plotOptions: {
                     line: {
-                        cursor: "pointer",
-                        dataLabels: {
-                            enabled: true
-                        }
+                        cursor: "pointer"
                     }
                 },
                 series: series
@@ -130,44 +134,46 @@ var report = new Vue({
         },
         print: function() {
             var outlet = $("select[name=outlet] option:selected").attr("name");
-            var from = get_startDate("input[name=date]", "DD/MM/YYYY");
-            var to = get_endDate("input[name=date]", "DD/MM/YYYY");
-            app.print(outlet + " (" + from + " - " + to + ") ");
+            var from = `${report.range.from_month}/${report.range.from_year}`;
+            var to = `${report.range.to_month}/${report.range.to_year}`;
+            app.print(`${outlet} (${from} - ${to})`);
         }
     }
 });
 
 $(document).ready(function() {
     report.refresh_outlet();
-    $("input[name=date]").daterangepicker({
-        dateLimit: {
-            days: 6
+    $("input[name=date]").daterangepicker(
+        {
+            ranges: {
+                "Last 12 Month": [moment().subtract(12, "month"), moment()],
+                "Last Year": [
+                    moment()
+                        .subtract(1, "year")
+                        .startOf("year")
+                        .add(1, "month"),
+                    moment()
+                        .subtract(1, "year")
+                        .endOf("year")
+                ]
+            },
+            expanded: true,
+            orientation: "left",
+            forceUpdate: true,
+            locale: {
+                inputFormat: "MM/YYYY"
+            },
+            periods: ["month", "quarter", "year"]
         },
-        maxDate: moment(),
-        ranges: {
-            Today: [moment(), moment()],
-            Yesterday: [
-                moment().subtract(1, "days"),
-                moment().subtract(1, "days")
-            ],
-            "Last 7 Days": [moment().subtract(6, "days"), moment()],
-            "Last Week": [
-                moment()
-                    .subtract(1, "week")
-                    .startOf("week"),
-                moment()
-                    .subtract(1, "week")
-                    .endOf("week")
-            ]
-        },
-        locale: {
-            format: "MM/YYYY",
-            customRangeLabel: "Custom"
-        },
-        startDate: moment().subtract(6, "days"),
-        showDropdowns: true,
-        opens: "right"
-    });
-    $(".on-print").slideUp("slow");
-    $(".loader").fadeOut("slow");
+        function(startDate, endDate, period) {
+            report.range.from_month = startDate.format("MM");
+            report.range.to_month = endDate.format("MM");
+            report.range.from_year = startDate.format("YYYY");
+            report.range.to_year = endDate.format("YYYY");
+
+            $(this).val(
+                startDate.format("MM/YYYY") + " – " + endDate.format("MM/YYYY")
+            );
+        }
+    );
 });

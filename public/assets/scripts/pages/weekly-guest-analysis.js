@@ -47,8 +47,12 @@ var report = new Vue({
             $(".on-print").slideUp("slow");
             $(".loader").slideDown("slow");
             var outlet = $("select[name=outlet] option:selected").val();
-            var from = get_startDate("input[name=date]", "DD-MM-YYYY");
-            var to = get_endDate("input[name=date]", "DD-MM-YYYY");
+            var from = $("input[name=date]")
+                .data("daterangepicker")
+                .startDate.format("DD-MM-YYYY");
+            var to = $("input[name=date]")
+                .data("daterangepicker")
+                .endDate.format("DD-MM-YYYY");
 
             $.ajax({
                 url: "/report/weekly-guest-analysis",
@@ -72,10 +76,7 @@ var report = new Vue({
                         });
                     } else {
                         bootbox.alert(
-                            "data doesn't exist in range from " +
-                                from +
-                                " to " +
-                                to
+                            `data doesn't exist in range from ${from} to ${to}`
                         );
                     }
                 }
@@ -119,10 +120,7 @@ var report = new Vue({
                 },
                 plotOptions: {
                     line: {
-                        cursor: "pointer",
-                        dataLabels: {
-                            enabled: true
-                        }
+                        cursor: "pointer"
                     }
                 },
                 series: series
@@ -130,9 +128,13 @@ var report = new Vue({
         },
         print: function() {
             var outlet = $("select[name=outlet] option:selected").attr("name");
-            var from = get_startDate("input[name=date]", "DD/MM/YYYY");
-            var to = get_endDate("input[name=date]", "DD/MM/YYYY");
-            app.print(outlet + " (" + from + " - " + to + ") ");
+            var from = $("input[name=date]")
+                .data("daterangepicker")
+                .startDate.format("DD-MM-YYYY");
+            var to = $("input[name=date]")
+                .data("daterangepicker")
+                .endDate.format("DD-MM-YYYY");
+            app.print(`${outlet} (${from} - ${to})`);
         }
     }
 });
@@ -154,20 +156,22 @@ $(document).ready(function() {
             "Last Week": [
                 moment()
                     .subtract(1, "week")
-                    .startOf("week"),
+                    .startOf("week")
+                    .add(1, "days"),
                 moment()
                     .subtract(1, "week")
                     .endOf("week")
+                    .add(1, "days")
             ]
         },
         locale: {
             format: "DD/MM/YYYY",
-            customRangeLabel: "Custom"
+            customRangeLabel: "Custom",
+            firstDay: 1
         },
+        alwaysShowCalendars: true,
         startDate: moment().subtract(6, "days"),
         showDropdowns: true,
-        opens: "right"
+        opens: "center"
     });
-    $(".on-print").slideUp("slow");
-    $(".loader").fadeOut("slow");
 });

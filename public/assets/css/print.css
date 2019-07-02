@@ -1,16 +1,12 @@
+.display-hide {
+    display: none !important;
+}
+
 th,
 td {
     padding: 4px !important;
     vertical-align: middle !important;
     text-align: center;
-}
-
-td {
-    text-align: right;
-}
-
-tr td:first-child {
-    text-align: left;
 }
 
 .highcharts-container {

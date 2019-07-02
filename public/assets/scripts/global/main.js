@@ -18,6 +18,26 @@ refreshModal = function(role, reset = true) {
     hideFormAlert();
 };
 
+// open modal
+openModal = function(role, reset = true) {
+    modal = $("[modal-action=" + role + "]");
+    modal.each(function() {
+        $(this).modal("show");
+        $(this)
+            .find("[name]")
+            .each(function() {
+                if (reset) {
+                    if ($(this).is("[type=radio]")) {
+                        $(this).removeAttr("checked");
+                    } else {
+                        $(this).val("");
+                    }
+                }
+            });
+    });
+    hideFormAlert();
+};
+
 // show alert component
 showAlert = function(alert, data) {
     var el = $(".alert[alert-action=" + alert + "]");
@@ -54,11 +74,13 @@ scrollTo = function(dest) {
 };
 
 // daterangepicker
-get_startDate = function (selector, format) {
-    return $(selector).data("daterangepicker").startDate.format(format);
-    
-}
-get_endDate = function (selector, format) {
-    return $(selector).data("daterangepicker").endDate.format(format);
-
-}
+get_startDate = function(selector, format) {
+    return $(selector)
+        .data("daterangepicker")
+        .startDate.format(format);
+};
+get_endDate = function(selector, format) {
+    return $(selector)
+        .data("daterangepicker")
+        .endDate.format(format);
+};

@@ -48,56 +48,6 @@ class ReportService
         return $results;
     }
 
-    public function monthlyGuestAnalysis(string $outletCd, string $m1, string $m2, string $y1, string $y2)
-    {
-        $results = $this->reportRepository->monthlyGuestAnalysis($outletCd, $m1, $m2, $y1, $y2);
-        $arr = [
-            [
-                "data" => $results["player_status"],
-                "key" => "player_status",
-                "field" => "plysts",
-                "record" => ["GUEST ", "MEMBER"],
-            ],
-            [
-                "data" => $results["gender"],
-                "key" => "gender",
-                "field" => "gender",
-                "record" => ["FEMALE", "MALE"],
-            ]
-        ];
-
-        foreach ($arr as $result) {
-            if ($result["data"]) {
-                $data = [];
-                $prev = null;
-                foreach ($result["data"] as $val) {
-                    $key = $val->regDate;
-                    $subkey = $val->{$result["field"]};
-
-                    if (isset($data[$key][$subkey])) {
-                        $data[$key][$subkey]["cmember"] += $val->cmember;
-                        $data[$key][$subkey]["ttlamt2"] += $val->ttlamt2;
-                    } else {
-                        foreach ($result["record"] as $record) {
-                            $data[$key][$record] = $subkey == $record ? [
-                                "cmember" => $val->cmember,
-                                "ttlamt2" => $val->ttlamt2,
-                            ] : [
-                                "cmember" => 0,
-                                "ttlamt2" => 0,
-                            ];
-                        }
-                    }
-                }
-                $results[$result["key"]] = $data;
-            } else {
-                $results[$result["key"]] = null;
-            }
-        }
-
-        return $results["gender"] == null && $results["player_status"] == null ? null : $results;
-    }
-
     public function weeklyGuestAnalysis(string $outletCd, string $date1, string $date2)
     {
         $results = $this->reportRepository->weeklyGuestAnalysis($outletCd, $date1, $date2);
@@ -146,5 +96,90 @@ class ReportService
         }
 
         return $results["gender"] == null && $results["player_status"] == null ? null : $results;
+    }
+
+    public function monthlyGuestAnalysis(string $outletCd, string $m1, string $m2, string $y1, string $y2)
+    {
+        $results = $this->reportRepository->monthlyGuestAnalysis($outletCd, $m1, $m2, $y1, $y2);
+        $arr = [
+            [
+                "data" => $results["player_status"],
+                "key" => "player_status",
+                "date" => "rmnth",
+                "field" => "plysts",
+                "record" => ["GUEST ", "MEMBER"],
+            ],
+            [
+                "data" => $results["gender"],
+                "key" => "gender",
+                "date" => "mn",
+                "field" => "gender",
+                "record" => ["FEMALE", "MALE"],
+            ]
+        ];
+
+        foreach ($arr as $result) {
+            if ($result["data"]) {
+                $data = [];
+                foreach ($result["data"] as $val) {
+                    $key = $val->{$result["date"]};
+                    $subkey = $val->{$result["field"]};
+
+                    if (isset($data[$key][$subkey])) {
+                        $data[$key][$subkey]["cmember"] += $val->cmember;
+                        $data[$key][$subkey]["ttlamt2"] += $val->ttlamt2;
+                    } else {
+                        foreach ($result["record"] as $record) {
+                            $data[$key][$record] = $subkey == $record ? [
+                                "cmember" => $val->cmember,
+                                "ttlamt2" => $val->ttlamt2,
+                            ] : [
+                                "cmember" => 0,
+                                "ttlamt2" => 0,
+                            ];
+                        }
+                    }
+                }
+                $results[$result["key"]] = $data;
+            } else {
+                $results[$result["key"]] = null;
+            }
+        }
+
+        return $results["gender"] == null && $results["player_status"] == null ? null : $results;
+    }
+
+    public function yearlyGuestAnalysis(string $outletCd, string $year1, string $year2, string $fb)
+    {
+        $results = $this->reportRepository->yearlyGuestAnalysis($outletCd, $year1, $year2, $fb);
+
+        $data = [];
+        foreach ($results as $result) {
+            $bln = (string) (int) $result->Bln;
+            $data[$bln]["player"]["day"] = (float) $result->PD;
+            $data[$bln]["amount"]["pers"] = (float) $result->PS;
+            for ($i = 0; $i <= $year2 - $year1; $i++) {
+                $field = 5 - $i;
+                $year = $year2 - $i;
+                $data[$bln]["player"][$year] = (float) $result->{"TH" . $field . "P"};
+                $data[$bln]["amount"][$year] = (float) $result->{"TH" . $field . "A"};
+            }
+        }
+
+        return $data;
+    }
+
+    public function playerInHouse(string $outletCd, string $refdt1, string $refdt2, string $usrid, string $type)
+    {
+        $results = $this->reportRepository->playerInHouse($outletCd, $refdt1, $refdt2, $usrid, $type);
+
+        return $results;
+    }
+
+    public function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
+    {
+        $results = $this->reportRepository->balanceSheet($cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType);
+
+        return $results;
     }
 }

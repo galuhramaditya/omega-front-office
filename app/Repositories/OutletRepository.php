@@ -9,6 +9,6 @@ class OutletRepository implements OutletRepositoryInterface
 {
     public function get()
     {
-        return Outlet::all();
+        return Outlet::select("outletcd", "outletnm")->get();
     }
 }

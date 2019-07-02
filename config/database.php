@@ -10,5 +10,12 @@ return [
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),
         ],
+        'sqlsrv2' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST'),
+            'database' => env('DB2_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+        ],
     ]
 ];

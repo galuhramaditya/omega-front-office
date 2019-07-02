@@ -36,6 +36,7 @@ License: You must have a valid license purchased only from themeforest(the above
         <!-- END THEME GLOBAL STYLES -->
         <!-- BEGIN PAGE LEVEL STYLES -->
         <link href="/assets/css/login.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/main.css" rel="stylesheet" type="text/css" />
         <!-- END PAGE LEVEL STYLES -->
         <link rel="shortcut icon" href="favicon.ico" /> </head>
     <!-- END HEAD -->
