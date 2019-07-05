@@ -16,9 +16,9 @@ class UserService
         $this->salt = env("SALT");
     }
 
-    public function get()
+    public function get(int $level)
     {
-        return $this->userRepository->get();
+        return $this->userRepository->get($level);
     }
 
     public function findOneBy(array $data)
@@ -50,9 +50,9 @@ class UserService
 
     private function passingData(array &$data)
     {
-        if (array_key_exists('permission', $data)) {
-            $data['admin']  = $data['permission'] == 'admin';
-            unset($data['permission']);
+        if (array_key_exists('role', $data)) {
+            $data['role_id']  = $data['role'];
+            unset($data['role']);
         }
 
         if (array_key_exists('password', $data)) {

@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 namespace App\Contracts;
 
 interface UserRepositoryInterface
 {
-    public function get();
+    public function get(int $level);
 
     public function create(array $data);
 

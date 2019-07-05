@@ -9,15 +9,15 @@
                 <div class="actions">
                     <div class="btn-group">
                         <a class="btn yellow btn-outline btn-circle btn-sm" data-toggle="modal" href="#self-edit">Edit</a>
-                        @include("pages.account.self-edit")
+                        @include("pages.dashboard.self-edit")
                     </div>
                     <div class="btn-group">
                         <a class="btn purple btn-outline btn-circle btn-sm" data-toggle="modal" href="#change-self-password">Change Password</a>
-                        @include("pages.account.change-self-password")
+                        @include("pages.dashboard.change-self-password")
                     </div>
                 </div>
             </div>
-            <div class="portlet-body">
+            <div class="portlet-body" v-if="user != null">
                 <div class="row">
                     <div class="col-xs-5 text-right">
                         Username
@@ -29,11 +29,20 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 text-right">
-                        Permission
+                        Role
                     </div>
                     <div class="col-xs-1" style="width: 1%"> : </div>
                     <div class="col-xs-6 bold">
-                        @{{user.admin ? "admin" : "user"}}
+                        @{{user.role.name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 text-right">
+                        Level
+                    </div>
+                    <div class="col-xs-1" style="width: 1%"> : </div>
+                    <div class="col-xs-6 bold">
+                        @{{user.role.level}}
                     </div>
                 </div>
             </div>

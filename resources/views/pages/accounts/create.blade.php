@@ -21,31 +21,32 @@
                         <span class="input-group-addon">
                             <i class="fa fa-unlock-alt"></i>
                         </span>
-                        <input type="password" class="form-control" name="password" placeholder="Password"> </div>
-                        <div class="help-block font-red" help-name="password"></div>
+                        <input type="password" class="form-control" name="password" placeholder="Password">
                     </div>
-                    <div class="form-group">
+                    <div class="help-block font-red" help-name="password"></div>
+                </div>
+                <div class="form-group">
                     <label>Password Confirmation</label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-unlock-alt"></i>
                         </span>
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Password Confirmation"> </div>
-                        <div class="help-block font-red" help-name="password_confirmation"></div>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Password Confirmation">
                     </div>
-                    <div class="form-group">
-                        <label>Permission</label>
-                        <div class="mt-radio-inline">
-                            <label class="mt-radio">
-                                <input type="radio" name="permission" value="user"> User
-                                <span></span>
-                        </label>
-                        <label class="mt-radio">
-                            <input type="radio" name="permission" value="admin"> Admin
-                            <span></span>
-                        </label>
-                        <div class="help-block font-red" help-name="permission"></div>
+                    <div class="help-block font-red" help-name="password_confirmation"></div>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-cog"></i>
+                        </span>
+                        <select name="role" class="form-control">
+                            <option disabled selected hidden>select role</option>
+                            <option v-for="role in _.orderBy(extra_container, ['level', 'name'], 'asc')" :value="role.id">@{{ `${role.name} (${role.level})` }}</option>
+                        </select>
                     </div>
+                    <div class="help-block font-red" help-name="role"></div>
                 </div>
             </div>
             <div class="modal-footer">

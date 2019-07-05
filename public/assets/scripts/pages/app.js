@@ -2,64 +2,27 @@ var app = new Vue({
     el: "#app",
     data: {
         container: null,
-        user: {
-            id: null,
-            username: null,
-            admin: null
-        },
-        menu: [
-            {
-                title: "Dashboard",
-                icon: "home",
-                link: "/"
-            },
-            {
-                title: "Day of Week Guest Analysis",
-                icon: "book",
-                link: "/report/day-of-week-guest-analysis"
-            },
-            {
-                title: "Weekly Guest Analysis",
-                icon: "book",
-                link: "/report/weekly-guest-analysis"
-            },
-            {
-                title: "Monthly Guest Analysis",
-                icon: "book",
-                link: "/report/monthly-guest-analysis"
-            },
-            {
-                title: "Yearly Guest Analysis",
-                icon: "book",
-                link: "/report/yearly-guest-analysis"
-            },
-            {
-                title: "Player in House",
-                icon: "file",
-                link: "/report/player-in-house"
-            },
-            {
-                title: "Balance Sheet",
-                icon: "file",
-                link: "/report/balance-sheet"
-            },
-            {
-                title: "Account",
-                icon: "user",
-                link: "/user/account"
-            }
-        ]
+        extra_container: null,
+        user: null,
+        menu: null,
+        token: null
     },
     computed: {
-        token: function() {
-            return localStorage.getItem("token");
-        },
         path: function() {
             return window.location.pathname;
         }
     },
+    watch: {
+        token: function() {
+            app.refresh_user();
+        }
+    },
     methods: {
+        refresh_token: function() {
+            app.token = localStorage.getItem("token");
+        },
         refresh_user: function() {
+            app.menu = null;
             $.ajax({
                 type: "post",
                 url: "/user/current",
@@ -68,12 +31,17 @@ var app = new Vue({
                 },
                 success: function(response) {
                     app.user = response.data;
+
+                    if (response.data.role != null) {
+                        app.menu = response.data.role.pages;
+                    }
+
                     $("[vue-data]").slideDown("slow");
-                    $(".on-print").slideUp("slow");
+                    $("#on-print").slideUp("slow");
                     $(".loader").fadeOut("slow");
                 },
                 error: function() {
-                    app.handle_logout();
+                    app.refresh_user();
                 }
             });
         },
@@ -90,7 +58,7 @@ var app = new Vue({
                 <link href="/assets/css/print.css" rel="stylesheet" type="text/css" />`
             );
             doc.document.write("</head><body>");
-            doc.document.write($(".on-print").html());
+            doc.document.write($("#on-print").html());
             doc.document.write("</body></html>");
             doc.document.title = title;
             setTimeout(function() {
@@ -102,5 +70,5 @@ var app = new Vue({
 });
 
 $(document).ready(function() {
-    app.refresh_user();
+    app.refresh_token();
 });

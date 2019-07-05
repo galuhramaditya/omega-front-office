@@ -13,6 +13,6 @@ class Token
 
     public static function decode($token)
     {
-        return (array) JWT::decode($token, env("APP_KEY"), array('HS256'));
+        return JWT::decode($token, env("APP_KEY"), array('HS256'));
     }
 }

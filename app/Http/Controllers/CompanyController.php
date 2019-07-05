@@ -7,7 +7,7 @@ use App\Services\CompanyService;
 
 class CompanyController extends Controller
 {
-    private $getanyService;
+    private $companyService;
 
     public function __construct(CompanyService $companyService)
     {

@@ -28,7 +28,7 @@
         <!-- LOADER -->
         @include("includes.loader")
         <!-- END LOADER -->
-        <div class="on-print">
+        <div id="on-print">
             @include("pages.weekly-guest-analysis.chart")
             @include("pages.weekly-guest-analysis.select-display")
         </div>

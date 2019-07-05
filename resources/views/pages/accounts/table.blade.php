@@ -1,4 +1,4 @@
-<div class="row" v-show="user.admin == 1">
+<div class="row">
     <div class="col-md-12" vue-data> 
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
         <div class="portlet light bordered" id="table">
@@ -10,7 +10,7 @@
                 <div class="actions">
                     <div class="btn-group">
                         <a class="btn green btn-outline btn-circle btn-sm" data-toggle="modal" href="#create">New Account</a>
-                        @include("pages.account.create")
+                        @include("pages.accounts.create")
                     </div>
                 </div>
             </div>
@@ -19,24 +19,26 @@
                     <thead>
                         <tr>
                             <th>Username</th>
-                            <th>Permission</th>
+                            <th>Role</th>
+                            <th>Level</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="users in _.orderBy(container,['admin', 'username'],['desc', 'asc'])">
+                    <tbody v-if="user != null">
+                        <tr v-for="users in _.orderBy(container,['role.level', 'username'],'asc')" v-show="users.id != user.id">
                             <td>@{{users.username}}</td>
-                            <td>@{{users.admin == 1 ? "admin" : "user"}}</td>
+                            <td>@{{users.role.name}}</td>
+                            <td>@{{users.role.level}}</td>
                             <td width="100">
-                                <div class="action" v-show="users.id != user.id">
+                                <div class="action">
                                     <a class="btn yellow btn-icon-only" data-toggle="modal" :href=`#edit-${users.id}`>
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    @include("pages.account.edit")
+                                    @include("pages.accounts.edit")
                                     <a class="btn red btn-icon-only" data-toggle="modal" :href=`#delete-${users.id}`>
                                         <i class="fa fa-trash"></i>
                                     </a>
-                                    @include("pages.account.delete")
+                                    @include("pages.accounts.delete")
                                 </div>
                             </td>
                         </tr>

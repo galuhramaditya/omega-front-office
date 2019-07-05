@@ -20,10 +20,10 @@ class AuthToken
     {
         try {
             $token = Token::decode($request->token);
-            $user = $this->userService->findOneBy($token);
+            $user = $this->userService->findOneBy(["id" => $token->id]);
 
             if ($user) {
-                $request->merge(["token" => $user]);
+                $request->merge(["token" => $token]);
                 return $next($request);
             }
 

@@ -2,33 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\ReportService;
-use App\Services\OutletService;
-use App\Services\UserService;
 use Illuminate\Support\Facades\View;
 
 class ViewController extends Controller
 {
-    protected $reportService;
-    protected $outletService;
-    protected $userService;
-
-    public function __construct(ReportService $reportService, OutletService $outletService, UserService $userService)
-    {
-        $this->reportService    = $reportService;
-        $this->outletService    = $outletService;
-        $this->userService      = $userService;
-    }
-
     public function login()
     {
         return View::make('pages.login');
     }
 
-    public function index()
+    public function dashboard()
     {
-        return View::make("layouts.app");
+        return View::make("pages.dashboard.index");
     }
 
     public function dayOfWeekGuestAnalysis()
@@ -61,8 +46,18 @@ class ViewController extends Controller
         return View::make('pages.balance-sheet.index');
     }
 
-    public function account(Request $request)
+    public function accounts()
     {
-        return View::make('pages.account.index');
+        return View::make('pages.accounts.index');
+    }
+
+    public function roles()
+    {
+        return View::make('pages.roles.index');
+    }
+
+    public function pages()
+    {
+        return View::make('pages.pages.index');
     }
 }

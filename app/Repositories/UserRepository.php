@@ -7,9 +7,17 @@ use App\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function get()
+    public function get(int $level)
     {
-        return User::select("id", "username", "admin")->get();
+        $users = User::whereHas("role", function ($query) use ($level) {
+            $query->where("level", ">=", $level);
+        })->get();
+
+        foreach ($users as $user) {
+            $user->role;
+        }
+
+        return $users;
     }
 
     public function create(array $data)
@@ -29,6 +37,13 @@ class UserRepository implements UserRepositoryInterface
 
     public function findOneBy(array $data)
     {
-        return User::select("id", "username", "admin")->where($data)->first();
+        $user = User::where($data)->first();
+        if ($user) {
+            if ($user->role) {
+                $user->role->pages;
+            }
+        }
+
+        return $user;
     }
 }

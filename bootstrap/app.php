@@ -64,7 +64,6 @@ $app->singleton(
 $app->routeMiddleware([
     'authToken' => App\Http\Middleware\AuthToken::class,
     'authPassword' => App\Http\Middleware\AuthPassword::class,
-    'authAdmin' => App\Http\Middleware\AuthAdmin::class,
 ]);
 
 /*

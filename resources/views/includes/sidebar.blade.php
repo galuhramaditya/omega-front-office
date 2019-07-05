@@ -19,10 +19,14 @@
                 </div>
             </li>
             <!-- END SIDEBAR TOGGLER BUTTON -->
-            <li class="nav-item start" v-for="menu in menu" :class="menu.link == path ? 'active' : ''">
-                <a :href="menu.link" class="nav-link ">
-                    <i class="fa" :class=`fa-${menu.icon}`></i>
-                    <span class="title">@{{ menu.title }}</span>
+            <li class="nav-item start" :class="'/' == path ? 'active' : ''">
+                <a href="/" class="nav-link ">
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item start" v-for="menu in _.orderBy(menu, 'url', 'asc')" :class="menu.name == path ? 'active' : ''">
+                <a :href="menu.url" class="nav-link ">
+                    <span class="title">@{{ menu.name }}</span>
                 </a>
             </li>
         </ul>

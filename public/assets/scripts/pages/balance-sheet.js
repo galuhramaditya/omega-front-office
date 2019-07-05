@@ -15,7 +15,7 @@ var report = new Vue({
             });
         },
         refresh_report: function() {
-            $(".on-print").slideUp("slow");
+            $("#on-print").slideUp("slow");
             $(".loader").slideDown("slow");
 
             var company = $("select[name=company] option:selected").val();
@@ -40,8 +40,8 @@ var report = new Vue({
                     if (response.hasOwnProperty("data")) {
                         report.reports = response.data;
 
-                        $(".on-print").slideDown("slow", function() {
-                            scrollTo($(".on-print"));
+                        $("#on-print").slideDown("slow", function() {
+                            scrollTo($("#on-print"));
                         });
                     } else {
                         bootbox.alert(`data doesn't exist on ${date}`);

@@ -16,13 +16,10 @@ class UserController extends Controller
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->validation = Validation::rules([
+        $this->validation = Validation::rulesOfFunction([
             "login" => [
                 "username" => "required",
                 "password" => "required",
-            ],
-            "selfEdit" => [
-                'token'        => 'required',
             ],
             "changeSelfPassword" => [
                 'new_password'    => 'required',
@@ -32,11 +29,11 @@ class UserController extends Controller
                 'username'      => 'required|unique:users',
                 'password'      => 'required',
                 'password_confirmation' => 'required|same:password',
-                'permission'    => 'required|in:admin,user'
+                'role'    => 'required'
             ],
             "edit" => [
                 'id'  => 'required',
-                'permission' => "required"
+                'role' => "required"
             ],
             "delete" => [
                 'id'  => 'required'
@@ -46,16 +43,14 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $validate = $this->validation->validate($request);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $this->validation->validate($request);
 
         $user = $this->userService->findOneBy($request->all());
 
         if ($user) {
             $token = Token::encode($user);
             return Response::success("login succesfully", ["token" => $token]);
+            // return Response::success("login succesfully", $user);
         } else {
             return Response::error('user does not exist');
         }
@@ -66,18 +61,15 @@ class UserController extends Controller
         return Response::success("succesfully get current user data", $request->token);
     }
 
-    public function get()
+    public function get(Request $request)
     {
-        $get = $this->userService->get();
+        $get = $this->userService->get($request->token->role->level);
         return Response::success("successfully get users data", $get);
     }
 
     public function selfEdit(Request $request)
     {
-        $validate = $this->validation->validate($request, ['username'  => 'required|unique:users,username,' . $request->token->id,]);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        Validation::rules(['username'  => 'required|unique:users,username,' . $request->token->id])->validate($request);
 
         $editSelf = $this->userService->update($request->except("token"), $request->token->id);
         if ($editSelf) {
@@ -87,10 +79,7 @@ class UserController extends Controller
 
     public function changeSelfPassword(Request $request)
     {
-        $validate = $this->validation->validate($request);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $this->validation->validate($request);
 
         $changeSelfPassword = $this->userService->update(["password" => $request->new_password], $request->token->id);
 
@@ -101,10 +90,7 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $validate = $this->validation->validate($request);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $this->validation->validate($request);
 
         $create = $this->userService->create($request->all());
 
@@ -115,10 +101,7 @@ class UserController extends Controller
 
     public function edit(Request $request)
     {
-        $validate = $this->validation->validate($request);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $this->validation->validate($request);
 
         $edit = $this->userService->update($request->except("token"), $request->id);
 
@@ -129,10 +112,7 @@ class UserController extends Controller
 
     public function delete(Request $request)
     {
-        $validate = $this->validation->validate($request);
-        if ($validate->fails()) {
-            return $validate->errors();
-        }
+        $this->validation->validate($request);
 
         $delete = $this->userService->delete($request->id);
 

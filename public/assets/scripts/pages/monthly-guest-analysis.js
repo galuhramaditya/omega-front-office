@@ -50,7 +50,7 @@ var report = new Vue({
             });
         },
         refresh_report: function() {
-            $(".on-print").slideUp("slow");
+            $("#on-print").slideUp("slow");
             $("#select-display").slideDown("slow");
             $(".loader").slideDown("slow");
 
@@ -75,9 +75,9 @@ var report = new Vue({
                     if (response.hasOwnProperty("data")) {
                         report.reports = response.data;
 
-                        $(".on-print").slideDown("slow", function() {
+                        $("#on-print").slideDown("slow", function() {
                             report.charting();
-                            scrollTo($(".on-print"));
+                            scrollTo($("#on-print"));
                         });
                     } else {
                         bootbox.alert(

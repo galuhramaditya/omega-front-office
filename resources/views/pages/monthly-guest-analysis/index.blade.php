@@ -31,7 +31,7 @@
         <!-- LOADER -->
         @include("includes.loader")
         <!-- END LOADER -->
-        <div class="on-print">
+        <div id="on-print">
             @include("pages.monthly-guest-analysis.chart")
             @include("pages.monthly-guest-analysis.select-display")
         </div>

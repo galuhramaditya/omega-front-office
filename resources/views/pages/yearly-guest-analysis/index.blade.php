@@ -34,7 +34,7 @@
         <!-- LOADER -->
         @include("includes.loader")
         <!-- END LOADER -->
-        <div class="on-print">
+        <div id="on-print">
             @include("pages.yearly-guest-analysis.table")
             @include("pages.yearly-guest-analysis.select-display")
             @include("pages.yearly-guest-analysis.chart")

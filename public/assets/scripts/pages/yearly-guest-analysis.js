@@ -49,7 +49,7 @@ var report = new Vue({
             });
         },
         refresh_report: function() {
-            $(".on-print").slideUp("slow");
+            $("#on-print").slideUp("slow");
             $("#select-display").slideDown("slow");
             $(".loader").slideDown("slow");
 
@@ -73,13 +73,13 @@ var report = new Vue({
                         report.total = { amount: [], player: [] };
                         report.reports = response.data;
 
-                        $(".on-print").slideDown("slow", function() {
+                        $("#on-print").slideDown("slow", function() {
                             report.handle_charting("column");
                             $.each(report.table, function(i, point) {
                                 report.tabling(point);
                             });
 
-                            scrollTo($(".on-print"));
+                            scrollTo($("#on-print"));
                         });
                     } else {
                         bootbox.alert(

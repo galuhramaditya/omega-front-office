@@ -9,9 +9,17 @@ class User extends Model
 {
     protected $table = "users";
     protected $fillable = [
-        "username", "password", "admin"
+        "username", "password", "role_id"
+    ];
+    protected $hidden = [
+        "password", "role_id"
     ];
 
     public $incrementing = false;
     public $timestamps = false;
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }

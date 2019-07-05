@@ -1,6 +1,6 @@
 <div class="modal fade" id="change-self-password" tabindex="-1" role="dialog" aria-hidden="true" modal-action="change-self-password">
     <div class="modal-dialog">
-        <form class='modal-content' form-action="change-self-password" v-on:submit.prevent="account.handle_change_self_password()">
+        <form class='modal-content' form-action="change-self-password" v-on:submit.prevent="dashboard.handle_change_self_password()">
             <div class="modal-header bg-font-purple bg-purple">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
                 <h4 class="modal-title">Change Password</h4>

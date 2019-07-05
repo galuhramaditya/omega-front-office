@@ -7,18 +7,16 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Permission</label>
-                    <div class="mt-radio-inline">
-                        <label class="mt-radio">
-                            <input type="radio" name="permission" value="user" :checked="users.admin == 0"> User
-                            <span></span>
-                        </label>
-                        <label class="mt-radio">
-                            <input type="radio" name="permission" value="admin" :checked="users.admin == 1"> Admin
-                            <span></span>
-                        </label>
-                        <div class="help-block font-red" help-name="permission"></div>
+                    <label>Role</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-cog"></i>
+                        </span>
+                        <select name="role" class="form-control">
+                            <option v-for="role in _.orderBy(extra_container, ['level', 'name'], 'asc')" :value="role.id" :selected="role.id == users.role.id">@{{ `${role.name} (${role.level})` }}</option>
+                        </select>
                     </div>
+                    <div class="help-block font-red" help-name="role"></div>
                 </div>
             </div>
             <div class="modal-footer">

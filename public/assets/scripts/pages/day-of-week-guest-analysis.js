@@ -27,7 +27,7 @@ var report = new Vue({
             });
         },
         refresh_report: function() {
-            $(".on-print").slideUp("slow");
+            $("#on-print").slideUp("slow");
             $(".loader").slideDown("slow");
 
             var outlet = $("select[name=outlet] option:selected").val();
@@ -54,12 +54,12 @@ var report = new Vue({
                         report.total = [];
                         report.reports = response.data;
 
-                        $(".on-print").slideDown("slow", function() {
+                        $("#on-print").slideDown("slow", function() {
                             $.each(report.chart, function(i, point) {
                                 report.charting(point.id, point.field);
                             });
 
-                            scrollTo($(".on-print"));
+                            scrollTo($("#on-print"));
                         });
                     } else {
                         bootbox.alert(
