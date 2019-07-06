@@ -23,9 +23,8 @@ class UserService
 
     public function findOneBy(array $data)
     {
-        if (array_key_exists('password', $data)) {
-            $data['password'] = sha1($this->salt . $data['password']);
-        }
+        $this->passingData($data);
+
         return $this->userRepository->findOneBy($data);
     }
 
