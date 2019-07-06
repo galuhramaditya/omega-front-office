@@ -43,6 +43,9 @@ License: You must have a valid license purchased only from themeforest(the above
 
     <body class="login">
         <!-- BEGIN LOGIN -->
+        <div class="logo">
+            <h1 class="font-white">{{env("APP_NAME")}}</h1>
+        </div>
         <div class="content" id="login">
             @yield('content')
         </div>
