@@ -50,10 +50,10 @@ class Report
         return $results;
     }
 
-    public static function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
-    {
-        $results = DB::connection("sqlsrv2")->select('SET NOCOUNT ON; EXEC dbo.GlrBS ?,?,?,?,?,?', [$cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType]);
+    // public static function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
+    // {
+    //     $results = DB::connection("sqlsrv2")->select('SET NOCOUNT ON; EXEC dbo.GlrBS ?,?,?,?,?,?', [$cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType]);
 
-        return $results;
-    }
+    //     return $results;
+    // }
 }

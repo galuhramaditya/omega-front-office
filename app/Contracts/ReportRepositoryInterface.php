@@ -9,5 +9,5 @@ interface ReportRepositoryInterface
     public function monthlyGuestAnalysis(string $outletCd, string $m1, string $m2, string $y1, string $y2);
     public function yearlyGuestAnalysis(string $outletCd, string $year1, string $year2, string $fb);
     public function playerInHouse(string $outletCd, string $refdt1, string $refdt2, string $usrid, string $type);
-    public function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType);
+    // public function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType);
 }

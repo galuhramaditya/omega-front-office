@@ -53,9 +53,9 @@ class ReportController extends Controller
         return Response::success("succeffully get report data", $get);
     }
 
-    public function balanceSheet(Request $request)
-    {
-        $get = $this->reportService->balanceSheet($request->company, $request->year, $request->month, "", "", "T");
-        return Response::success("succeffully get report data", $get);
-    }
+    // public function balanceSheet(Request $request)
+    // {
+    //     $get = $this->reportService->balanceSheet($request->company, $request->year, $request->month, "", "", "T");
+    //     return Response::success("succeffully get report data", $get);
+    // }
 }
