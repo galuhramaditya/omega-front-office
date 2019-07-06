@@ -5,6 +5,33 @@ var report = new Vue({
         reports: null
     },
     methods: {
+        summary_output: function(index, field, key) {
+            var data = report.reports.summary.data[index][field][key];
+            setTimeout(function() {
+                var tag_total = $("tr#total");
+
+                if (_.size(report.total) == 0) {
+                    tag_total.find("td").remove();
+                }
+
+                if (tag_total.find("td").length == 0) {
+                    tag_total.append("<td colspan=2>Total</td>");
+                }
+
+                if (!report.total.hasOwnProperty(`${field}-${key}`)) {
+                    report.total[`${field}-${key}`] = data;
+                    tag_total.append(`<td data=${field}-${key}>${data}</td>`);
+                } else {
+                    report.total[`${field}-${key}`] += data;
+                    var total = report.total[`${field}-${key}`];
+
+                    tag_total
+                        .find(`td[data=${field}-${key}]`)
+                        .html(total.toLocaleString());
+                }
+            }, 0);
+            return data.toLocaleString();
+        },
         refresh_outlet: function() {
             $.ajax({
                 type: "get",
@@ -35,6 +62,7 @@ var report = new Vue({
                     $(".loader").slideUp("slow");
 
                     if (response.hasOwnProperty("data")) {
+                        report.total = {};
                         report.reports = response.data;
 
                         $("#on-print").slideDown("slow", function() {

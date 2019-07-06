@@ -50,8 +50,7 @@ var report = new Vue({
                     $(".loader").slideUp("slow");
 
                     if (response.hasOwnProperty("data")) {
-                        $("tr#total td").remove();
-                        report.total = [];
+                        report.total = {};
                         report.reports = response.data;
 
                         $("#on-print").slideDown("slow", function() {
@@ -72,6 +71,10 @@ var report = new Vue({
         output: function(key, index, avg = false) {
             var tag_total = $("tr#total");
 
+            if (_.size(report.total) == 0) {
+                tag_total.find("td").remove();
+            }
+
             if (tag_total.find("td").length == 0) {
                 tag_total.append("<td>Total</td>");
             }
@@ -84,7 +87,7 @@ var report = new Vue({
 
             if (!report.total.hasOwnProperty(key)) {
                 report.total[key] = data;
-                tag_total.append("<td data=" + key + ">" + data + "</td>");
+                tag_total.append(`<td data="${key}">${data}</td>`);
             } else {
                 report.total[key] += data;
                 var total = report.total[key];
@@ -94,7 +97,7 @@ var report = new Vue({
                 }
 
                 tag_total
-                    .find("td[data=" + key + "]")
+                    .find(`td[data="${key}"]`)
                     .html(total.toLocaleString());
             }
             return data.toLocaleString();

@@ -9,6 +9,10 @@ td {
     text-align: center;
 }
 
+.bold {
+    font-weight: 700!important;
+}
+
 .highcharts-container {
     width: 100% !important;
     text-align: center !important;

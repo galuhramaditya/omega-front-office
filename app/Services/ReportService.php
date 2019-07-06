@@ -173,6 +173,45 @@ class ReportService
     {
         $results = $this->reportRepository->playerInHouse($outletCd, $refdt1, $refdt2, $usrid, $type);
 
+        if ($results["summary"]) {
+            $ampm = ["A", "M", "total"];
+
+            $data = [];
+            foreach ($results["summary"] as $summary) {
+                $key = $summary->gsttypenm;
+                $subkey = $summary->ampm;
+                $male = (float) $summary->cmale;
+                $female = (float) $summary->cfemale;
+                $amount = (float) $summary->ttlamt2;
+
+                if (isset($data[$key][$subkey])) {
+                    $data[$key][$subkey]["male"] += $male;
+                    $data[$key][$subkey]["female"] += $female;
+                    $data[$key][$subkey]["amount"] += $amount;
+                    $data[$key]["total"]["male"] += $male;
+                    $data[$key]["total"]["female"] += $female;
+                    $data[$key]["total"]["amount"] += $amount;
+                } else {
+                    $data[$key]["holes"] = $summary->holes;
+                    foreach ($ampm as $ap) {
+                        $data[$key][$ap] = $subkey == $ap || $ap == "total" ? [
+                            "male" => $male,
+                            "female" => $female,
+                            "amount" => $amount,
+                        ] : [
+                            "male" => 0,
+                            "female" => 0,
+                            "amount" => 0,
+                        ];
+                    }
+                }
+            }
+            $flight = $results["summary"][0]->ttlflight;
+            $results["summary"] = [];
+            $results["summary"]["data"] = $data;
+            $results["summary"]["flight"] = $flight;
+        }
+
         if (!$results["detail"] || !$results["summary"]) {
             $results = null;
         }

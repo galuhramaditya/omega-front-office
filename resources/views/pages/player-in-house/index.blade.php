@@ -24,7 +24,8 @@
         @include("includes.loader")
         <!-- END LOADER -->
         <div id="on-print">
-            @include("pages.player-in-house.table")
+            @include("pages.player-in-house.summary")
+            @include("pages.player-in-house.detail")
         </div>
     </div>
     <!-- END CONTENT BODY -->
