@@ -41,11 +41,6 @@ class ViewController extends Controller
         return View::make('pages.player-in-house.index');
     }
 
-    public function balanceSheet()
-    {
-        return View::make('pages.balance-sheet.index');
-    }
-
     public function accounts()
     {
         return View::make('pages.accounts.index');

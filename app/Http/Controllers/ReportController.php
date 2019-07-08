@@ -52,10 +52,4 @@ class ReportController extends Controller
         $get = $this->reportService->playerInHouse($request->outlet, $request->date, $request->date, $request->username, "All");
         return Response::success("succeffully get report data", $get);
     }
-
-    // public function balanceSheet(Request $request)
-    // {
-    //     $get = $this->reportService->balanceSheet($request->company, $request->year, $request->month, "", "", "T");
-    //     return Response::success("succeffully get report data", $get);
-    // }
 }

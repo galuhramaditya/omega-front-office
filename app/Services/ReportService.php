@@ -218,11 +218,4 @@ class ReportService
 
         return $results;
     }
-
-    // public function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
-    // {
-    //     $results = $this->reportRepository->balanceSheet($cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType);
-
-    //     return $results;
-    // }
 }

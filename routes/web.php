@@ -84,11 +84,6 @@ $router->group(["prefix" => "report"], function () use ($router) {
         $router->get('/', 'ViewController@playerInHouse');
         $router->post('/', 'ReportController@playerInHouse');
     });
-
-    // $router->group(["prefix" => "balance-sheet"], function () use ($router) {
-    //     $router->get('/', 'ViewController@balanceSheet');
-    //     $router->post('/', 'ReportController@balanceSheet');
-    // });
 });
 
 // user

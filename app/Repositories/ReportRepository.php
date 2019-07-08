@@ -31,9 +31,4 @@ class ReportRepository implements ReportRepositoryInterface
     {
         return Report::playerInHouse($outletCd, $refdt1, $refdt2, $usrid, $type);
     }
-
-    // public function balanceSheet(string $cocd, string $cyear, string $cmonth, string $fDepCd, string $tDepCd, string $bsType)
-    // {
-    //     return Report::balanceSheet($cocd, $cyear, $cmonth, $fDepCd, $tDepCd, $bsType);
-    // }
 }
