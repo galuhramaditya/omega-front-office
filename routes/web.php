@@ -22,11 +22,6 @@ $router->group(["prefix" => "outlet"], function () use ($router) {
     $router->get("/get", "OutletController@get");
 });
 
-// company
-$router->group(["prefix" => "company"], function () use ($router) {
-    $router->get("/get", "CompanyController@get");
-});
-
 // role
 $router->group(["prefix" => "role"], function () use ($router) {
     $router->get("/", "ViewController@roles");
