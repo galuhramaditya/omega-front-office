@@ -204,7 +204,7 @@ $(document).ready(function() {
     $("input[name=date]").daterangepicker(
         {
             ranges: {},
-            startDate: moment().subtract(1, "year"),
+            startDate: moment().subtract(3, "year"),
             expanded: true,
             orientation: "left",
             forceUpdate: true,
