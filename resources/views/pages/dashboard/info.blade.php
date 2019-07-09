@@ -27,7 +27,7 @@
                         @{{user.username}}
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="user.role != null">
                     <div class="col-xs-5 text-right">
                         Role
                     </div>
@@ -36,7 +36,7 @@
                         @{{user.role.name}}
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" v-if="user.role != null">
                     <div class="col-xs-5 text-right">
                         Level
                     </div>
