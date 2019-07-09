@@ -1,6 +1,6 @@
-<div class="row" vue-data>
+<div class="row">
     <div class="col-md-12">
-        <div class="portlet light bordered">
+        <div class="portlet light bordered" vue-data>
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-user font-green"></i>
