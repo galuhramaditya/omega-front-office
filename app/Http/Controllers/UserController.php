@@ -69,7 +69,7 @@ class UserController extends Controller
 
     public function selfEdit(Request $request)
     {
-        Validation::rules(['username'  => "required|unique:users,username,$request->token->id"])->validate($request);
+        Validation::rules(['username'  => 'required|unique:users,username,' . $request->token->id])->validate($request);
 
         $editSelf = $this->userService->update($request->except("token"), $request->token->id);
         if ($editSelf) {
