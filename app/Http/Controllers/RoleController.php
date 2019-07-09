@@ -17,7 +17,7 @@ class RoleController extends Controller
         $this->roleService = $roleService;
         $this->validation = Validation::rulesOfFunction([
             "create" => [
-                "name" => "required|unique:roles",
+                "name"  => "required|unique:roles",
                 "level" => "required|numeric"
             ]
         ]);
@@ -46,7 +46,7 @@ class RoleController extends Controller
     public function edit(Request $request)
     {
         Validation::rules([
-            "name" => "required|unique:roles,name,$request->id",
+            "name"  => "required|unique:roles,name,$request->id",
             "level" => "required|numeric",
         ])->validate($request);
 

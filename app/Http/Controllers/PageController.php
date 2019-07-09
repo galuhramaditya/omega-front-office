@@ -17,12 +17,12 @@ class PageController extends Controller
         $this->pageService = $pageService;
         $this->validation = Validation::rulesOfFunction([
             "create" => [
-                "name" => "required",
-                "url" => "required"
+                "name"  => "required",
+                "url"   => "required"
             ],
             "edit" => [
-                "name" => "required",
-                "url" => "required"
+                "name"  => "required",
+                "url"   => "required"
             ],
         ]);
     }

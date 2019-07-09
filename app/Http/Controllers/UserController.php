@@ -22,21 +22,21 @@ class UserController extends Controller
                 "password" => "required",
             ],
             "changeSelfPassword" => [
-                'new_password'    => 'required',
-                'new_password_confirmation'    => 'required|same:new_password',
+                'new_password'              => 'required',
+                'new_password_confirmation' => 'required|same:new_password',
             ],
             "create" => [
                 'username'      => 'required|unique:users',
                 'password'      => 'required',
                 'password_confirmation' => 'required|same:password',
-                'role'    => 'required'
+                'role'          => 'required'
             ],
             "edit" => [
-                'id'  => 'required',
-                'role' => "required"
+                'id'    => 'required',
+                'role'  => "required"
             ],
             "delete" => [
-                'id'  => 'required'
+                'id'    => 'required'
             ]
         ]);
     }
@@ -69,7 +69,7 @@ class UserController extends Controller
 
     public function selfEdit(Request $request)
     {
-        Validation::rules(['username'  => 'required|unique:users,username,' . $request->token->id])->validate($request);
+        Validation::rules(['username'  => "required|unique:users,username,$request->token->id"])->validate($request);
 
         $editSelf = $this->userService->update($request->except("token"), $request->token->id);
         if ($editSelf) {
