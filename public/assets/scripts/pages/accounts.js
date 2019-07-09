@@ -1,4 +1,8 @@
 var account = new Vue({
+    data: {
+        users: null,
+        roles: null
+    },
     methods: {
         refresh_users: function() {
             $.ajax({
@@ -8,8 +12,11 @@ var account = new Vue({
                     token: app.token
                 },
                 success: function(response) {
-                    app.container = response.data;
+                    account.users = response.data;
                     account.refresh_roles();
+                },
+                error: function() {
+                    account.refresh_users();
                 }
             });
         },
@@ -21,7 +28,7 @@ var account = new Vue({
                     token: app.token
                 },
                 success: function(response) {
-                    app.extra_container = response.data;
+                    account.roles = response.data;
                 }
             });
         },

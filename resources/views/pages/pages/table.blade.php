@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12" vue-data> 
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet light bordered" id="table">
+        <div class="portlet light bordered" id="table" v-if="window.hasOwnProperty('page')">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-file font-dark"></i>
@@ -24,7 +24,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="pages in _.orderBy(container, 'name', 'asc')">
+                        <tr v-for="pages in _.orderBy(page.pages, 'name', 'asc')">
                             <td>@{{pages.name}}</td>
                             <td>@{{pages.url}}</td>
                             <td width="100">

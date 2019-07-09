@@ -13,7 +13,7 @@
                             <i class="fa fa-cog"></i>
                         </span>
                         <select name="role" class="form-control">
-                            <option v-for="role in _.orderBy(extra_container, ['level', 'name'], 'asc')" :value="role.id" :selected="role.id == users.role.id">@{{ `${role.name} (${role.level})` }}</option>
+                            <option v-for="role in _.orderBy(account.roles, ['level', 'name'], 'asc')" :value="role.id" :selected="role.id == users.role.id">@{{ `${role.name} (${role.level})` }}</option>
                         </select>
                     </div>
                     <div class="help-block font-red" help-name="role"></div>

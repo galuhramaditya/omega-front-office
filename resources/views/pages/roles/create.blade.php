@@ -33,7 +33,7 @@
                             <i class="fa fa-file"></i>
                         </span>
                         <select name="pages" multiple class="form-control selectpicker" data-live-search="true">
-                            <option v-for="page in extra_container" :value="page.id">@{{page.name}}</option>
+                            <option v-for="page in role.pages" :value="page.id">@{{page.name}}</option>
                         </select>
                     </div>
                     <div class="help-block font-red" help-name="pages"></div>

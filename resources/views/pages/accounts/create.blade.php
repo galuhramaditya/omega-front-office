@@ -43,7 +43,7 @@
                         </span>
                         <select name="role" class="form-control">
                             <option disabled selected hidden>select role</option>
-                            <option v-for="role in _.orderBy(extra_container, ['level', 'name'], 'asc')" :value="role.id">@{{ `${role.name} (${role.level})` }}</option>
+                            <option v-for="role in _.orderBy(account.roles, ['level', 'name'], 'asc')" :value="role.id">@{{ `${role.name} (${role.level})` }}</option>
                         </select>
                     </div>
                     <div class="help-block font-red" help-name="role"></div>

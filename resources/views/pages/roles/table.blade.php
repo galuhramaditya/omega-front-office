@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12" vue-data> 
         <!-- BEGIN EXAMPLE TABLE PORTLET-->
-        <div class="portlet light bordered" id="table">
+        <div class="portlet light bordered" id="table" v-if="window.hasOwnProperty('role')">
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-users font-dark"></i>
@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody v-if="user != null">
-                        <tr v-for="roles in _.orderBy(container,['level', 'name'], 'asc')">
+                        <tr v-for="roles in _.orderBy(role.roles,['level', 'name'], 'asc')">
                             <td>@{{roles.name}}</td>
                             <td>@{{roles.level}}</td>
                             <td><div v-for="page in roles.pages">@{{page.name}}</div></td>

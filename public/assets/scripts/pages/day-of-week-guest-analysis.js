@@ -198,4 +198,11 @@ $(document).ready(function() {
         showDropdowns: true,
         opens: "center"
     });
+
+    start = setInterval(function() {
+        if (report.outlet != null) {
+            clearInterval(start);
+            report.refresh_report();
+        }
+    }, 1000);
 });

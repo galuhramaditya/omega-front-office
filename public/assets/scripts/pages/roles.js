@@ -1,4 +1,8 @@
 var role = new Vue({
+    data: {
+        roles: null,
+        pages: null
+    },
     methods: {
         refresh_roles: function() {
             $.ajax({
@@ -8,8 +12,11 @@ var role = new Vue({
                     token: app.token
                 },
                 success: function(response) {
-                    app.container = response.data;
+                    role.roles = response.data;
                     role.refresh_pages();
+                },
+                error: function() {
+                    role.refresh_roles();
                 }
             });
         },
@@ -21,7 +28,7 @@ var role = new Vue({
                     token: app.token
                 },
                 success: function(response) {
-                    app.extra_container = response.data;
+                    role.pages = response.data;
                     setTimeout(function() {
                         $(".selectpicker").selectpicker("refresh");
                     }, 0);

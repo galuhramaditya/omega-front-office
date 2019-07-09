@@ -190,4 +190,11 @@ $(document).ready(function() {
             );
         }
     );
+
+    start = setInterval(function() {
+        if (report.outlet != null) {
+            clearInterval(start);
+            report.refresh_report();
+        }
+    }, 1000);
 });

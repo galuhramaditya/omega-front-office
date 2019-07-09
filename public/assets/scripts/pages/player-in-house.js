@@ -96,4 +96,11 @@ $(document).ready(function() {
             todayHighlight: true
         })
         .datepicker("setDate", moment().format("DD/MM/YYYY"));
+
+    start = setInterval(function() {
+        if (report.outlet != null) {
+            clearInterval(start);
+            report.refresh_report();
+        }
+    }, 1000);
 });

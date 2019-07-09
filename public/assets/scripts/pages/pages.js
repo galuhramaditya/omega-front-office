@@ -1,4 +1,7 @@
 var page = new Vue({
+    data: {
+        pages: null
+    },
     methods: {
         refresh_pages: function() {
             $.ajax({
@@ -8,7 +11,10 @@ var page = new Vue({
                     token: app.token
                 },
                 success: function(response) {
-                    app.container = response.data;
+                    page.pages = response.data;
+                },
+                error: function() {
+                    page.refresh_pages();
                 }
             });
         },

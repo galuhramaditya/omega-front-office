@@ -23,7 +23,7 @@ class AuthToken
             $user = $this->userService->findOneBy(["id" => $token->id]);
 
             if ($user) {
-                $request->merge(["token" => $token]);
+                $request->merge(["token" => $user]);
                 return $next($request);
             }
 
