@@ -26,6 +26,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-default">
                         <li>
+                            <a href="/user/profile">
+                                <i class="fa fa-cog"></i> Profile </a>
+                        </li>
+                        <li>
                             <a v-on:click.prevent="handle_logout()">
                                 <i class="fa fa-sign-out"></i> Log Out </a>
                         </li>

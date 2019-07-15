@@ -132,9 +132,15 @@ var report = new Vue({
                 report.total[field][key] += data;
                 var total = report.total[field][key];
 
-                tag_total.find(`td[data=${key}]`).html(total.toLocaleString());
+                tag_total
+                    .find(`td[data=${key}]`)
+                    .html(
+                        total.toLocaleString(undefined, {
+                            maximumFractionDigits: 2
+                        })
+                    );
             }
-            return data.toLocaleString();
+            return data.toLocaleString(undefined, { maximumFractionDigits: 2 });
         },
         charting: function(spec, type) {
             var categories = [];

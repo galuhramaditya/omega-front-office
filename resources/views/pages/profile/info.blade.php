@@ -6,6 +6,16 @@
                     <i class="fa fa-user font-green"></i>
                     <span class="caption-subject font-green bold uppercase">User Info</span>
                 </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn yellow btn-outline btn-circle btn-sm" data-toggle="modal" href="#self-edit">Edit</a>
+                        @include("pages.dashboard.self-edit")
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn purple btn-outline btn-circle btn-sm" data-toggle="modal" href="#change-self-password">Change Password</a>
+                        @include("pages.dashboard.change-self-password")
+                    </div>
+                </div>
             </div>
             <div class="portlet-body" v-if="user != null">
                 <div class="row">

@@ -25,8 +25,7 @@ class ReportService
                 $result->nofmbrprctg = ($result->nofmbrtotal / $result->noftotal) * 100;
                 $result->nofgstprctg = ($result->nofgsttotal / $result->noftotal) * 100;
 
-                $arrnof = array($result->nofmbram, $result->nofmbrpm, $result->nofgstam, $result->nofgsttotal);
-                $result->nofavrg = ceil(array_sum($arrnof) / count($arrnof));
+                $result->nofavrg = $result->noftotal / $result->period;
 
                 $result->mbramttotal = $result->mbramtam + $result->mbramtpm;
                 $result->gstamttotal = $result->gstamtam + $result->gstamtpm;
@@ -34,8 +33,7 @@ class ReportService
                 $result->mbramtprctg = ($result->mbramttotal / $result->amttotal) * 100;
                 $result->gstamtprctg = ($result->gstamttotal / $result->amttotal) * 100;
 
-                $arramt = array($result->mbramtam, $result->mbramtpm, $result->gstamtam, $result->gstamtpm);
-                $result->amtavrg = ceil(array_sum($arramt) / count($arramt));
+                $result->amtavrg = $result->amttotal / $result->period;
             }
 
             array_push($results, $result);

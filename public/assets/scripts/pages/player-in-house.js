@@ -27,10 +27,14 @@ var report = new Vue({
 
                     tag_total
                         .find(`td[data=${field}-${key}]`)
-                        .html(total.toLocaleString());
+                        .html(
+                            total.toLocaleString(undefined, {
+                                maximumFractionDigits: 2
+                            })
+                        );
                 }
             }, 0);
-            return data.toLocaleString();
+            return data.toLocaleString(undefined, { maximumFractionDigits: 2 });
         },
         refresh_outlet: function() {
             $.ajax({

@@ -98,9 +98,9 @@ var report = new Vue({
 
                 tag_total
                     .find(`td[data="${key}"]`)
-                    .html(total.toLocaleString());
+                    .html(total.toLocaleString(undefined, { maximumFractionDigits: 2 }));
             }
-            return data.toLocaleString();
+            return data.toLocaleString(undefined, { maximumFractionDigits: 2 });
         },
         charting: function(id, field) {
             var data = report.reports;

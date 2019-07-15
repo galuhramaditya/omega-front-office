@@ -9,7 +9,7 @@
                 </div>
                 <div class="actions">
                     <div class="btn-group">
-                        <a class="btn green btn-outline btn-circle btn-sm" data-toggle="modal" href="#create">New Account</a>
+                        <a class="btn green btn-outline btn-circle btn-sm" data-toggle="modal" href="#create">New Page</a>
                         @include("pages.pages.create")
                     </div>
                 </div>

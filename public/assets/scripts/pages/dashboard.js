@@ -5,10 +5,11 @@ var dashboard = new Vue({
             display: [],
             list: {
                 "day-of-week-guest-analysis": {
-                    title: "Total Venue",
+                    title: "Total Revenue",
                     field: "amttotal",
                     from: moment().startOf("month"),
-                    to: moment()
+                    to: moment(),
+                    date_format: "DD/MM/YYYY"
                 },
                 "weekly-guest-analysis": {
                     title: "Amount Player by Status",
@@ -17,7 +18,8 @@ var dashboard = new Vue({
                     based_on: "player_status",
                     by: "amount",
                     from: moment().subtract(6, "days"),
-                    to: moment()
+                    to: moment(),
+                    date_format: "DD/MM/YYYY"
                 },
                 "monthly-guest-analysis": {
                     title: "Amount Player by Status",
@@ -28,7 +30,8 @@ var dashboard = new Vue({
                     from: moment()
                         .startOf("year")
                         .add(1, "month"),
-                    to: moment()
+                    to: moment(),
+                    date_format: "MM/YYYY"
                 },
                 "yearly-guest-analysis": {
                     title: "Income from Player",
@@ -36,7 +39,8 @@ var dashboard = new Vue({
                     hint: "Rp. 1,000",
                     except: "pers",
                     from: moment().subtract(3, "year"),
-                    to: moment()
+                    to: moment(),
+                    date_format: "YYYY"
                 }
             }
         }
@@ -48,72 +52,6 @@ var dashboard = new Vue({
                 url: "/outlet/get",
                 success: function(response) {
                     dashboard.outlet = response.data;
-                }
-            });
-        },
-        handle_self_edit: function() {
-            var form = $("[form-action=self-edit]");
-            var username = form.find("input[name=username]").val();
-
-            hideFormAlert();
-
-            $.ajax({
-                type: "patch",
-                url: "/user/self-edit",
-                data: {
-                    token: app.token,
-                    username: username
-                },
-                success: function(response) {
-                    showAlert("success", response.message);
-                    refreshModal("self-edit", false);
-                    bootbox.alert(
-                        `${
-                            response.message
-                        }! we will logout immediatelely, please login again`,
-                        function() {
-                            app.handle_logout();
-                        }
-                    );
-                },
-                error: function(response) {
-                    showFormAlert(form, response.responseJSON.data);
-                }
-            });
-        },
-        handle_change_self_password: function() {
-            var form = $("[form-action=change-self-password]");
-            var password = form.find("input[name=password]").val();
-            var new_password = form.find("input[name=new_password]").val();
-            var new_password_confirmation = form
-                .find("input[name=new_password_confirmation]")
-                .val();
-
-            hideFormAlert();
-
-            $.ajax({
-                type: "patch",
-                url: "/user/self-edit/change-password",
-                data: {
-                    token: app.token,
-                    password: password,
-                    new_password: new_password,
-                    new_password_confirmation: new_password_confirmation
-                },
-                success: function(response) {
-                    showAlert("success", response.message);
-                    refreshModal("change-self-password", false);
-                    bootbox.alert(
-                        `${
-                            response.message
-                        }! we will logout immediatelely, please login again`,
-                        function() {
-                            app.handle_logout();
-                        }
-                    );
-                },
-                error: function(response) {
-                    showFormAlert(form, response.responseJSON.data);
                 }
             });
         },
@@ -133,12 +71,12 @@ var dashboard = new Vue({
                     to: data.to.format("DD-MM-YYYY")
                 },
                 success: function(response) {
+                    loading_up(func);
+
                     if (!response.hasOwnProperty("data")) {
-                        $(`[data=${func}]`).slideUp("slow");
+                        show_no_data(func, outlet, data);
                         return;
                     }
-
-                    loading_up(func);
 
                     $.each(response.data, function(i, point) {
                         point.name = point.dayname;
@@ -148,11 +86,8 @@ var dashboard = new Vue({
                     pie_chart({
                         data: response.data,
                         id: func,
-                        hint: data.hint,
                         title: data.title,
-                        subtitle: `${outlet.outletnm} (${data.from.format(
-                            "DD/MM/YYYY"
-                        )} - ${data.to.format("DD/MM/YYYY")})`
+                        subtitle: subtitle(outlet, data)
                     });
                 }
             });
@@ -173,31 +108,32 @@ var dashboard = new Vue({
                     to: data.to.format("DD-MM-YYYY")
                 },
                 success: function(response) {
+                    loading_up(func);
+
                     if (!response.hasOwnProperty("data")) {
-                        $(`[data=${func}]`).slideUp("slow");
+                        show_no_data(func, outlet, data);
                         return;
                     }
 
-                    loading_up(func);
-
-                    var items = response.data[data.based_on];
-                    var obj = {};
+                    var items = {};
                     var categories = [];
 
-                    $.each(items, function(date, point) {
+                    $.each(response.data[data.based_on], function(date, point) {
                         categories.push(moment(date).format("DD-MM-YYYY"));
 
                         $.each(point, function(field, value) {
-                            if (!obj.hasOwnProperty(field)) {
-                                obj[field] = { name: field, data: [] };
+                            if (!items.hasOwnProperty(field)) {
+                                items[field] = { name: field, data: [] };
                             }
 
-                            obj[field].data.push(parseFloat(value[data.field]));
+                            items[field].data.push(
+                                parseFloat(value[data.field])
+                            );
                         });
                     });
 
                     var series = [];
-                    $.each(obj, function(i, point) {
+                    $.each(items, function(i, point) {
                         series.push(point);
                     });
 
@@ -207,9 +143,7 @@ var dashboard = new Vue({
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: `${outlet.outletnm} (${data.from.format(
-                            "DD/MM/YYYY"
-                        )} - ${data.to.format("DD/MM/YYYY")})`
+                        subtitle: subtitle(outlet, data)
                     });
                 }
             });
@@ -232,32 +166,34 @@ var dashboard = new Vue({
                     to_year: data.to.format("YYYY")
                 },
                 success: function(response) {
+                    loading_up(func);
+
                     if (!response.hasOwnProperty("data")) {
-                        $(`[data=${func}]`).slideUp("slow");
+                        show_no_data(func, outlet, data);
                         return;
                     }
 
-                    loading_up(func);
-
-                    var items = response.data[data.based_on];
-                    var obj = {};
+                    var items = {};
                     var categories = [];
-                    $.each(items, function(date, point) {
+
+                    $.each(response.data[data.based_on], function(date, point) {
                         categories.push(
                             `${date.substr(4)}-${date.substr(0, 4)}`
                         );
 
                         $.each(point, function(field, value) {
-                            if (!obj.hasOwnProperty(field)) {
-                                obj[field] = { name: field, data: [] };
+                            if (!items.hasOwnProperty(field)) {
+                                items[field] = { name: field, data: [] };
                             }
 
-                            obj[field].data.push(parseFloat(value[data.field]));
+                            items[field].data.push(
+                                parseFloat(value[data.field])
+                            );
                         });
                     });
 
                     var series = [];
-                    $.each(obj, function(i, point) {
+                    $.each(items, function(i, point) {
                         series.push(point);
                     });
 
@@ -267,9 +203,7 @@ var dashboard = new Vue({
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: `${outlet.outletnm} (${data.from.format(
-                            "MM/YYYY"
-                        )} - ${data.to.format("MM/YYYY")})`
+                        subtitle: subtitle(outlet, data)
                     });
                 }
             });
@@ -290,16 +224,15 @@ var dashboard = new Vue({
                     to: data.to.format("YYYY")
                 },
                 success: function(response) {
+                    loading_up(func);
+
                     if (!response.hasOwnProperty("data")) {
-                        $(`[data=${func}]`).slideUp("slow");
+                        show_no_data(func, outlet, data);
                         return;
                     }
 
-                    loading_up(func);
-
                     var categories = [];
                     var items = {};
-                    var series = [];
 
                     $.each(response.data, function(month, field) {
                         categories.push(month);
@@ -313,6 +246,7 @@ var dashboard = new Vue({
                         });
                     });
 
+                    var series = [];
                     $.each(items, function(i, point) {
                         series.push(point);
                     });
@@ -323,9 +257,7 @@ var dashboard = new Vue({
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: `${outlet.outletnm} (${data.from.format(
-                            "YYYY"
-                        )} - ${data.to.format("YYYY")})`
+                        subtitle: subtitle(outlet, data)
                     });
                 }
             });
@@ -345,6 +277,7 @@ $(document).ready(function() {
                 if (dashboard.chart.list.hasOwnProperty(item)) {
                     dashboard.chart.display.push({
                         title: value.name,
+                        link: value.url,
                         id: item
                     });
                     dashboard[item]();
@@ -419,6 +352,19 @@ var line_chart = function(data) {
         },
         series: data.series
     });
+};
+
+var show_no_data = function(id, outlet, data) {
+    var no_data = $(`#${id}`).find(".no-data");
+    no_data.find(".title").html(data.title);
+    no_data.find(".subtitle").html(subtitle(outlet, data));
+    no_data.slideDown("slow");
+};
+
+var subtitle = function(outlet, data) {
+    return `${outlet.outletnm} (${data.from.format(
+        data.date_format
+    )} - ${data.to.format(data.date_format)})`;
 };
 
 var loading_down = function(func) {

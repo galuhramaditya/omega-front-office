@@ -84,6 +84,7 @@ $router->group(["prefix" => "report"], function () use ($router) {
 // user
 $router->group(["prefix" => "user"], function () use ($router) {
     $router->post('/login', 'UserController@login');
+    $router->get('/profile', 'ViewController@profile');
 
     $router->group(["prefix" => "accounts"], function () use ($router) {
         $router->get('/', 'ViewController@accounts');

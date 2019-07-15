@@ -46,6 +46,11 @@ class ViewController extends Controller
         return View::make('pages.accounts.index');
     }
 
+    public function profile()
+    {
+        return View::make('pages.profile.index');
+    }
+
     public function roles()
     {
         return View::make('pages.roles.index');

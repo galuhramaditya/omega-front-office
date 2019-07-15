@@ -38,8 +38,8 @@
                             <td>@{{data.teetime}}</td>
                             <td>@{{data.cintime}}</td>
                             <td>@{{data.cOuttime}}</td>
-                            <td>@{{parseFloat(data.orgamt1).toLocaleString()}}</td>
-                            <td>@{{parseFloat(data.rmnamt1).toLocaleString()}}</td>
+                            <td>@{{parseFloat(data.orgamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
+                            <td>@{{parseFloat(data.rmnamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                         </tr>
                     </tbody>
                 </table>
