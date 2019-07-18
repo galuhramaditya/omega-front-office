@@ -117,7 +117,7 @@ var report = new Vue({
             }
 
             if (tag_total.find("td").length == 0) {
-                tag_total.append("<td>Total</td>");
+                tag_total.append("<td class='text-center'>Total</td>");
             }
 
             if (!report.total[field].hasOwnProperty(key)) {
@@ -132,13 +132,11 @@ var report = new Vue({
                 report.total[field][key] += data;
                 var total = report.total[field][key];
 
-                tag_total
-                    .find(`td[data=${key}]`)
-                    .html(
-                        total.toLocaleString(undefined, {
-                            maximumFractionDigits: 2
-                        })
-                    );
+                tag_total.find(`td[data=${key}]`).html(
+                    total.toLocaleString(undefined, {
+                        maximumFractionDigits: 2
+                    })
+                );
             }
             return data.toLocaleString(undefined, { maximumFractionDigits: 2 });
         },

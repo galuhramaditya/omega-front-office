@@ -23,10 +23,10 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr v-for="pages in _.orderBy(page.pages, 'name', 'asc')">
+                    <tbody class="text-center">
+                        <tr v-for="pages in _.orderBy(page.pages, 'url', 'asc')">
                             <td>@{{pages.name}}</td>
-                            <td>@{{pages.url}}</td>
+                            <td class="text-left">@{{pages.url}}</td>
                             <td width="100">
                                 <div class="action">
                                     <a class="btn yellow btn-icon-only" data-toggle="modal" :href=`#edit-${pages.id}`>

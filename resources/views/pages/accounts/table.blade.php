@@ -24,7 +24,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody v-if="user != null">
+                    <tbody v-if="user != null" class="text-center">
                         <tr v-for="users in _.orderBy(account.users,['role.level', 'username'],'asc')" v-show="users.id != user.id">
                             <td>@{{users.username}}</td>
                             <td>@{{users.role.name}}</td>

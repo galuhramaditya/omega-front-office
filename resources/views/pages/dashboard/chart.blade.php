@@ -1,5 +1,5 @@
 <div class="row" id="chart" v-if="window.hasOwnProperty('dashboard')" vue-data>
-    <div class="col-md-6" v-for="chart in dashboard.chart.display" :data="chart.id">
+    <div class="col-md-6" v-for="chart in _.orderBy(dashboard.chart.display, 'seq', 'asc')" :data="chart.id">
         <!-- BEGIN CHART PORTLET-->
         <div class="portlet light bordered">
             <div class="portlet-title">

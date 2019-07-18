@@ -45,9 +45,9 @@
                             <th>%</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-right">
                         <tr v-for="(value, index) in report.reports">
-                            <td>@{{value.dayname}}</td>
+                            <td class="text-left">@{{value.dayname}}</td>
                             <td>@{{report.output("nofmbram", index)}}</td>
                             <td>@{{report.output("nofmbrpm", index)}}</td>
                             <td>@{{report.output("nofmbrtotal", index)}}</td>

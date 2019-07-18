@@ -9,15 +9,24 @@
                 <div class="actions">
                     <div class="btn-group">
                         <a class="btn yellow btn-outline btn-circle btn-sm" data-toggle="modal" href="#self-edit">Edit</a>
-                        @include("pages.dashboard.self-edit")
+                        @include("pages.profile.self-edit")
                     </div>
                     <div class="btn-group">
                         <a class="btn purple btn-outline btn-circle btn-sm" data-toggle="modal" href="#change-self-password">Change Password</a>
-                        @include("pages.dashboard.change-self-password")
+                        @include("pages.profile.change-self-password")
                     </div>
                 </div>
             </div>
             <div class="portlet-body" v-if="user != null">
+                <div class="row">
+                    <div class="col-xs-5 text-right">
+                        Company Name
+                    </div>
+                    <div class="col-xs-1" style="width: 1%"> : </div>
+                    <div class="col-xs-6 bold">
+                        @{{user.conm}}
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-5 text-right">
                         Username

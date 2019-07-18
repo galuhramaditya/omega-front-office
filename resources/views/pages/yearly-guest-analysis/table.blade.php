@@ -16,9 +16,9 @@
                             <th v-for="header in tab.header">@{{header}}</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-right">
                         <tr v-for="(data, month) in report.reports">
-                            <td>@{{month}}</td>
+                            <td class="text-center">@{{month}}</td>
                             <td v-for="(val, key) in data[tab.field]">@{{report.output(key, tab.field, month)}}</td>
                         </tr>
                         <tr :id=`total-${tab.field}` class="active bold">

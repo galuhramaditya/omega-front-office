@@ -76,7 +76,7 @@ var report = new Vue({
             }
 
             if (tag_total.find("td").length == 0) {
-                tag_total.append("<td>Total</td>");
+                tag_total.append("<td class='text-left'>Total</td>");
             }
 
             var data = parseFloat(
@@ -96,9 +96,11 @@ var report = new Vue({
                     total /= index + 1;
                 }
 
-                tag_total
-                    .find(`td[data="${key}"]`)
-                    .html(total.toLocaleString(undefined, { maximumFractionDigits: 2 }));
+                tag_total.find(`td[data="${key}"]`).html(
+                    total.toLocaleString(undefined, {
+                        maximumFractionDigits: 2
+                    })
+                );
             }
             return data.toLocaleString(undefined, { maximumFractionDigits: 2 });
         },

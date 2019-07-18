@@ -26,20 +26,20 @@
                             <th>Balance</th>
                         </tr>
                     </thead>
-                    <tbody v-if="report.reports != null">
+                    <tbody v-if="report.reports != null" class="text-center">
                         <tr v-for="(data, index) in report.reports.detail">
-                            <td>@{{index + 1}}</td>
-                            <td>@{{data.bagtag}}</td>
-                            <td>@{{data.holes}}</td>
-                            <td>@{{data.gsttype}}</td>
-                            <td>@{{data.gstcd}}</td>
+                            <td class="text-right">@{{index + 1}}</td>
+                            <td class="text-left">@{{data.bagtag}}</td>
+                            <td class="text-right">@{{data.holes}}</td>
+                            <td class="text-left">@{{data.gsttype}}</td>
+                            <td class="text-left">@{{data.gstcd}}</td>
                             <td>@{{data.sex}}</td>
-                            <td>@{{data.fstnm}}</td>
+                            <td class="text-left">@{{data.fstnm}}</td>
                             <td>@{{data.teetime}}</td>
                             <td>@{{data.cintime}}</td>
                             <td>@{{data.cOuttime}}</td>
-                            <td>@{{parseFloat(data.orgamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
-                            <td>@{{parseFloat(data.rmnamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
+                            <td class="text-right">@{{parseFloat(data.orgamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
+                            <td class="text-right">@{{parseFloat(data.rmnamt1).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                         </tr>
                     </tbody>
                 </table>

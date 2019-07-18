@@ -10,6 +10,15 @@
             <div class="portlet-body" v-if="user != null">
                 <div class="row">
                     <div class="col-xs-5 text-right">
+                        Company Name
+                    </div>
+                    <div class="col-xs-1" style="width: 1%"> : </div>
+                    <div class="col-xs-6 bold">
+                        @{{user.conm}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 text-right">
                         Username
                     </div>
                     <div class="col-xs-1" style="width: 1%"> : </div>

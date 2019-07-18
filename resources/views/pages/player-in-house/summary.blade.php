@@ -31,10 +31,10 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-right">
                         <tr v-for="(data, index) in report.reports.summary.data">
                             <td>@{{data.holes}}</td>
-                            <td>@{{index}}</td>
+                            <td class="text-left">@{{index}}</td>
                             <td>@{{report.summary_output(index, "M", "male")}}</td>
                             <td>@{{report.summary_output(index, "M", "female")}}</td>
                             <td>@{{report.summary_output(index, "M", "amount")}}</td>

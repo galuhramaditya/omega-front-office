@@ -5,6 +5,7 @@ var dashboard = new Vue({
             display: [],
             list: {
                 "day-of-week-guest-analysis": {
+                    seq: 1,
                     title: "Total Revenue",
                     field: "amttotal",
                     from: moment().startOf("month"),
@@ -12,6 +13,7 @@ var dashboard = new Vue({
                     date_format: "DD/MM/YYYY"
                 },
                 "weekly-guest-analysis": {
+                    seq: 2,
                     title: "Amount Player by Status",
                     field: "ttlamt2",
                     hint: "amount",
@@ -22,6 +24,7 @@ var dashboard = new Vue({
                     date_format: "DD/MM/YYYY"
                 },
                 "monthly-guest-analysis": {
+                    seq: 3,
                     title: "Amount Player by Status",
                     field: "ttlamt2",
                     hint: "amount",
@@ -34,6 +37,7 @@ var dashboard = new Vue({
                     date_format: "MM/YYYY"
                 },
                 "yearly-guest-analysis": {
+                    seq: 4,
                     title: "Income from Player",
                     field: "amount",
                     hint: "Rp. 1,000",
@@ -278,7 +282,8 @@ $(document).ready(function() {
                     dashboard.chart.display.push({
                         title: value.name,
                         link: value.url,
-                        id: item
+                        id: item,
+                        seq: dashboard.chart.list[item].seq
                     });
                     dashboard[item]();
                 }

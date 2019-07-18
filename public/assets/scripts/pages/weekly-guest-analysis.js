@@ -135,10 +135,10 @@ var report = new Vue({
             var outlet = $("select[name=outlet] option:selected").attr("name");
             var from = $("input[name=date]")
                 .data("daterangepicker")
-                .startDate.format("DD-MM-YYYY");
+                .startDate.format("DD/MM/YYYY");
             var to = $("input[name=date]")
                 .data("daterangepicker")
-                .endDate.format("DD-MM-YYYY");
+                .endDate.format("DD/MM/YYYY");
 
             app.print(`${outlet} (${from} - ${to})`);
         },
