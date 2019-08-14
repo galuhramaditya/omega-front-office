@@ -17,7 +17,7 @@ var app = new Vue({
     },
     methods: {
         refresh_token: function() {
-            app.token = localStorage.getItem("token");
+            app.token = sessionStorage.getItem("token");
         },
         refresh_user: function() {
             app.menu = null;
@@ -44,7 +44,7 @@ var app = new Vue({
             });
         },
         handle_logout: function() {
-            localStorage.removeItem("token");
+            sessionStorage.removeItem("token");
             sessionStorage.removeItem("document");
             window.location = "/login";
         },
