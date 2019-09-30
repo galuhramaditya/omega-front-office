@@ -43,7 +43,7 @@ var report = new Vue({
         refresh_outlet: function() {
             $.ajax({
                 type: "get",
-                url: "/outlet/get",
+                url: url("/outlet/get"),
                 success: function(response) {
                     report.outlet = response.data;
                 }
@@ -61,7 +61,7 @@ var report = new Vue({
             var to_year = report.range.to_year;
 
             $.ajax({
-                url: "/report/monthly-guest-analysis",
+                url: url("/report/monthly-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet,

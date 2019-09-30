@@ -53,7 +53,7 @@ var dashboard = new Vue({
         refresh_outlet: function() {
             $.ajax({
                 type: "get",
-                url: "/outlet/get",
+                url: url("/outlet/get"),
                 success: function(response) {
                     dashboard.outlet = response.data;
                 }
@@ -67,7 +67,7 @@ var dashboard = new Vue({
             loading_down(func);
 
             $.ajax({
-                url: "/report/day-of-week-guest-analysis",
+                url: url("/report/day-of-week-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet.outletcd,
@@ -104,7 +104,7 @@ var dashboard = new Vue({
             loading_down(func);
 
             $.ajax({
-                url: "/report/weekly-guest-analysis",
+                url: url("/report/weekly-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet.outletcd,
@@ -160,7 +160,7 @@ var dashboard = new Vue({
             loading_down(func);
 
             $.ajax({
-                url: "/report/monthly-guest-analysis",
+                url: url("/report/monthly-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet.outletcd,
@@ -220,7 +220,7 @@ var dashboard = new Vue({
             loading_down(func);
 
             $.ajax({
-                url: "/report/yearly-guest-analysis",
+                url: url("/report/yearly-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet.outletcd,

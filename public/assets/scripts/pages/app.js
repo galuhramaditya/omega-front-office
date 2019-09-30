@@ -6,8 +6,8 @@ var app = new Vue({
         token: null
     },
     computed: {
-        path: function() {
-            return window.location.pathname;
+        location: function() {
+            return window.location.href;
         }
     },
     watch: {
@@ -23,7 +23,7 @@ var app = new Vue({
             app.menu = null;
             $.ajax({
                 type: "post",
-                url: "/user/current",
+                url: url("/user/current"),
                 data: {
                     token: app.token
                 },
@@ -46,14 +46,18 @@ var app = new Vue({
         handle_logout: function() {
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("document");
-            window.location = "/login";
+            window.location = url("/login");
         },
         print: function(title) {
             var doc = window.open();
             doc.document.write("<html><head>");
             doc.document.write(
-                `<link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-                <link href="/assets/css/print.css" rel="stylesheet" type="text/css" />`
+                `<link href="${url(
+                    "/assets/css/bootstrap.min.css"
+                )}" rel="stylesheet" type="text/css" />
+                <link href="${url(
+                    "/assets/css/print.css"
+                )}" rel="stylesheet" type="text/css" />`
             );
             doc.document.write("</head><body>");
             doc.document.write($("#on-print").html());

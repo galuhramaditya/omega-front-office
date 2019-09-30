@@ -10,7 +10,7 @@ var app = new Vue({
 
             $.ajax({
                 type: "POST",
-                url: "/user/login",
+                url: url("/user/login"),
                 data: {
                     username: username,
                     password: password
@@ -18,7 +18,7 @@ var app = new Vue({
                 success: function(response) {
                     showAlert("success", response.message);
                     sessionStorage.setItem("token", response.data.token);
-                    window.location = "/";
+                    window.location = url("/");
                 },
                 error: function(response) {
                     showAlert("error", response.responseJSON.message);
@@ -31,7 +31,7 @@ var app = new Vue({
 
 jQuery(document).ready(function() {
     if (sessionStorage.hasOwnProperty("token")) {
-        window.location = "/";
+        window.location = url("/");
     }
     $("input[name=username]").focus();
 });

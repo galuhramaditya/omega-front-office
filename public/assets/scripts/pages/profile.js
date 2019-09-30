@@ -8,7 +8,7 @@ var dashboard = new Vue({
 
             $.ajax({
                 type: "patch",
-                url: "/user/self-edit",
+                url: url("/user/self-edit"),
                 data: {
                     token: app.token,
                     username: username
@@ -17,9 +17,7 @@ var dashboard = new Vue({
                     showAlert("success", response.message);
                     refreshModal("self-edit", false);
                     bootbox.alert(
-                        `${
-                            response.message
-                        }! we will logout immediatelely, please login again`,
+                        `${response.message}! we will logout immediatelely, please login again`,
                         function() {
                             app.handle_logout();
                         }
@@ -42,7 +40,7 @@ var dashboard = new Vue({
 
             $.ajax({
                 type: "patch",
-                url: "/user/self-edit/change-password",
+                url: url("/user/self-edit/change-password"),
                 data: {
                     token: app.token,
                     password: password,
@@ -53,9 +51,7 @@ var dashboard = new Vue({
                     showAlert("success", response.message);
                     refreshModal("change-self-password", false);
                     bootbox.alert(
-                        `${
-                            response.message
-                        }! we will logout immediatelely, please login again`,
+                        `${response.message}! we will logout immediatelely, please login again`,
                         function() {
                             app.handle_logout();
                         }

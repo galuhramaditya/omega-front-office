@@ -7,7 +7,7 @@
     <h1 class="page-title"> Page System
     </h1>
     <!-- END PAGE TITLE-->
-    
+
     @include('includes.alert')
     @include('pages.pages.table')
 </div>
@@ -15,5 +15,5 @@
 @endsection
 
 @section('scripts')
-    <script src="/assets/scripts/pages/pages.js" type="text/javascript"></script>
+<script src="{{ url('/assets/scripts/pages/pages.js') }}" type="text/javascript"></script>
 @endsection

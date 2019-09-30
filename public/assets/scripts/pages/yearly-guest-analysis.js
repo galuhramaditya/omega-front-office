@@ -42,7 +42,7 @@ var report = new Vue({
         refresh_outlet: function() {
             $.ajax({
                 type: "get",
-                url: "/outlet/get",
+                url: url("/outlet/get"),
                 success: function(response) {
                     report.outlet = response.data;
                 }
@@ -60,7 +60,7 @@ var report = new Vue({
             hideFormAlert();
 
             $.ajax({
-                url: "/report/yearly-guest-analysis",
+                url: url("/report/yearly-guest-analysis"),
                 type: "POST",
                 data: {
                     outlet: outlet,

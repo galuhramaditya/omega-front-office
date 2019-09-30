@@ -6,7 +6,7 @@ var page = new Vue({
         refresh_pages: function() {
             $.ajax({
                 type: "get",
-                url: "/page/get",
+                url: url("/page/get"),
                 data: {
                     token: app.token
                 },
@@ -21,17 +21,17 @@ var page = new Vue({
         handle_create: function() {
             var form = $("[form-action=create]");
             var name = form.find("input[name=name]").val();
-            var url = form.find("input[name=url]").val();
+            var link = form.find("input[name=url]").val();
 
             hideFormAlert();
 
             $.ajax({
                 type: "post",
-                url: "/page/create",
+                url: url("/page/create"),
                 data: {
                     token: app.token,
                     name: name,
-                    url: url
+                    url: link
                 },
                 success: function(response) {
                     showAlert("success", response.message);
@@ -52,18 +52,18 @@ var page = new Vue({
                 if (result) {
                     var form = $(`[form-action=edit-${id}]`);
                     var name = form.find("input[name=name]").val();
-                    var url = form.find("input[name=url]").val();
+                    var link = form.find("input[name=url]").val();
 
                     hideFormAlert();
 
                     $.ajax({
                         type: "patch",
-                        url: "/page/edit",
+                        url: url("/page/edit"),
                         data: {
                             token: app.token,
                             id: id,
                             name: name,
-                            url: url
+                            url: link
                         },
                         success: function(response) {
                             showAlert("success", response.message);
@@ -93,7 +93,7 @@ var page = new Vue({
 
                     $.ajax({
                         type: "delete",
-                        url: "/page/delete",
+                        url: url("/page/delete"),
                         data: {
                             token: app.token,
                             password: password,

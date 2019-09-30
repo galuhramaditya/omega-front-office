@@ -39,7 +39,7 @@ var report = new Vue({
         refresh_outlet: function() {
             $.ajax({
                 type: "get",
-                url: "/outlet/get",
+                url: url("/outlet/get"),
                 success: function(response) {
                     report.outlet = response.data;
                 }
@@ -55,7 +55,7 @@ var report = new Vue({
                 .getFormattedDate("mm/dd/yyyy");
 
             $.ajax({
-                url: "/report/player-in-house",
+                url: url("/report/player-in-house"),
                 type: "POST",
                 data: {
                     outlet: outlet,

@@ -84,3 +84,12 @@ get_endDate = function(selector, format) {
         .data("daterangepicker")
         .endDate.format(format);
 };
+
+// init url
+initURL = function(path, host) {
+    while (path[0] == "/") {
+        path = path.slice(1);
+    }
+
+    return `${host}/${path}`;
+};
