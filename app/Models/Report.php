@@ -49,4 +49,43 @@ class Report
 
         return $results;
     }
+
+    public static function outletRevenueAnalysis(string $date)
+    {
+        $results = [
+            "date" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_90300r ?', [$date]),
+            "week" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_90310r ?', [$date]),
+            "month" => DB::select('SET NOCOUNT ON; EXEC dbo.GSR_90320r ?', [$date]),
+        ];
+
+        return $results;
+    }
+
+    public static function fbTopSalesQty(string $month, string $year)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_88250r ?,?', [$month, $year]);
+
+        return $results;
+    }
+
+    public static function fbTopSalesAmount(string $month, string $year)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_88251r ?,?', [$month, $year]);
+
+        return $results;
+    }
+
+    public static function ytdTopSalesQty(string $date, string $outlet)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_90510r ?,?', [$date, $outlet]);
+
+        return $results;
+    }
+
+    public static function ytdTopSalesAmount(string $date, string $outlet)
+    {
+        $results = DB::select('SET NOCOUNT ON; EXEC dbo.GSR_90500r ?,?', [$date, $outlet]);
+
+        return $results;
+    }
 }

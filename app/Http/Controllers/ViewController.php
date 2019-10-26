@@ -41,6 +41,21 @@ class ViewController extends Controller
         return View::make('pages.player-in-house.index');
     }
 
+    public function outletRevenueAnalysis()
+    {
+        return View::make('pages.outlet-revenue-analysis.index');
+    }
+
+    public function fbTopSales()
+    {
+        return View::make('pages.fb-top-sales.index');
+    }
+
+    public function ytdTopSales()
+    {
+        return View::make('pages.ytd-top-sales.index');
+    }
+
     public function accounts()
     {
         return View::make('pages.accounts.index');

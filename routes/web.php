@@ -75,9 +75,19 @@ $router->group(["prefix" => "report"], function () use ($router) {
         $router->post('/', 'ReportController@playerInHouse');
     });
 
-    $router->group(["prefix" => "player-in-house"], function () use ($router) {
-        $router->get('/', 'ViewController@playerInHouse');
-        $router->post('/', 'ReportController@playerInHouse');
+    $router->group(["prefix" => "outlet-revenue-analysis"], function () use ($router) {
+        $router->get('/', 'ViewController@outletRevenueAnalysis');
+        $router->post('/', 'ReportController@outletRevenueAnalysis');
+    });
+
+    $router->group(["prefix" => "fb-top-sales"], function () use ($router) {
+        $router->get('/', 'ViewController@fbTopSales');
+        $router->post('/', 'ReportController@fbTopSales');
+    });
+
+    $router->group(["prefix" => "ytd-top-sales"], function () use ($router) {
+        $router->get('/', 'ViewController@ytdTopSales');
+        $router->post('/', 'ReportController@ytdTopSales');
     });
 });
 

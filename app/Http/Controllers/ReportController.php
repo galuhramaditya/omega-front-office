@@ -52,4 +52,22 @@ class ReportController extends Controller
         $get = $this->reportService->playerInHouse($request->outlet, $request->date, $request->date, $request->username, "All");
         return Response::success("succeffully get report data", $get);
     }
+
+    public function outletRevenueAnalysis(Request $request)
+    {
+        $get = $this->reportService->outletRevenueAnalysis($request->date);
+        return Response::success("succeffully get report data", $get);
+    }
+
+    public function fbTopSales(Request $request)
+    {
+        $get = $this->reportService->fbTopSales($request->month, $request->year, $request->type);
+        return Response::success("succeffully get report data", $get);
+    }
+
+    public function ytdTopSales(Request $request)
+    {
+        $get = $this->reportService->ytdTopSales($request->date, $request->outlet, $request->type);
+        return Response::success("succeffully get report data", $get);
+    }
 }

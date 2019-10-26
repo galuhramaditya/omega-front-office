@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\ReportRepositoryInterface;
+use DateTime;
 
 class ReportService
 {
@@ -212,6 +213,156 @@ class ReportService
 
         if (!$results["detail"] || !$results["summary"]) {
             $results = null;
+        }
+
+        return $results;
+    }
+
+    public function outletRevenueAnalysis(string $date)
+    {
+        $results = $this->reportRepository->outletRevenueAnalysis($date);
+
+        if ($results) {
+            $date = [
+                "tasdate" => 0,
+                "tmonthly" => 0,
+                "tweekly" => 0,
+                "tyearly" => 0,
+            ];
+
+            $date["data"] = collect($results["date"])->map(function ($key) use (&$date) {
+                $key->tasdate = (float) $key->tasdate;
+                $key->tmonthly = (float) $key->tmonthly;
+                $key->tweekly = (float) $key->tweekly;
+                $key->tyearly = (float) $key->tyearly;
+
+                $date["tasdate"] += $key->tasdate;
+                $date["tmonthly"] += $key->tmonthly;
+                $date["tweekly"] += $key->tweekly;
+                $date["tyearly"] += $key->tyearly;
+
+                return $key;
+            });
+
+            $results["date"] = $date;
+
+            $week = [
+                "data" => [],
+                "time" => []
+            ];
+            collect($results["week"])->map(function ($key) use (&$week) {
+                $datex = date_format(new DateTime($key->datex), "d/m/Y");
+                if (!in_array($datex, $week["time"])) {
+                    array_push($week["time"], $datex);
+                }
+
+                if (!isset($week["data"][$key->descp])) {
+                    $week["data"][$key->descp] = [];
+                }
+
+                array_push($week["data"][$key->descp], (float) $key->tamount);
+            });
+
+            $results["week"] = $week;
+
+            $month = [
+                "data" => [],
+                "time" => []
+            ];
+            collect($results["month"])->map(function ($key) use (&$month) {
+                if (!in_array($key->mmonth, $month["time"])) {
+                    array_push($month["time"], $key->mmonth);
+                }
+
+                if (!isset($month["data"][$key->descp])) {
+                    $month["data"][$key->descp] = [];
+                }
+
+                array_push($month["data"][$key->descp], (float) $key->tamount);
+            });
+
+            $results["month"] = $month;
+        }
+
+        return $results;
+    }
+
+    public function fbTopSales(string $month, string $year, string $type)
+    {
+        $results = $this->reportRepository->{"fbTopSales$type"}($month, $year);
+
+        if ($results) {
+            $grp1 = ["Resto", "Kios/Halfway", "Driving", "Sunset Bar"];
+            $grp2 = ["Cover", "Food", "Snack", "Beverages", "Others"];
+
+            $data = [];
+
+            foreach ($results as $result) {
+                $key = $grp1[$result->Grp1 - 1];
+                $subkey = $grp2[$result->Grp2 - 1];
+                $title = $result->ServNm;
+                $date = (int) date_format(new DateTime($result->RefDt), "d");
+
+                if (!isset($data[$key][$subkey][$title])) {
+                    $data[$key][$subkey][$title] = [
+                        "total" => (float) $result->TOP,
+                    ];
+                }
+
+                $data[$key][$subkey][$title]["data"][$date] = (float) $result->Qty;
+            }
+
+            $results = $data;
+        }
+
+        return $results;
+    }
+
+    public function ytdTopSales(string $date, string $outlet, string $type)
+    {
+        $results = $this->reportRepository->{"ytdTopSales$type"}($date, $outlet);
+
+        if ($results) {
+            $key = $results[0]->descp;
+            $data = [
+                $key => [
+                    "total_ytd" => 0,
+                    "total_mtd" => 0,
+                    "total_date" => 0,
+                ]
+            ];
+
+            foreach ($results as $result) {
+                $subkey = $result->categ;
+                $ytd = (float) $result->tyearly;
+                $mtd = (float) $result->tmonthly;
+                $date = (float) $result->tasdate;
+
+                if (!isset($data[$key]["data"][$subkey])) {
+                    $data[$key]["data"][$subkey] = [
+                        "data" => [],
+                        "total_ytd" => 0,
+                        "total_mtd" => 0,
+                        "total_date" => 0,
+                    ];
+                }
+
+                array_push($data[$key]["data"][$subkey]["data"], [
+                    "code" => $result->servcd,
+                    "description" => $result->servnm,
+                    "ytd" => $ytd,
+                    "mtd" => $mtd,
+                    "date" => $date,
+                ]);
+                $data[$key]["data"][$subkey]["total_ytd"] += $ytd;
+                $data[$key]["data"][$subkey]["total_mtd"] += $mtd;
+                $data[$key]["data"][$subkey]["total_date"] += $date;
+                $data[$key]["total_ytd"] += $ytd;
+                $data[$key]["total_mtd"] += $mtd;
+                $data[$key]["total_date"] += $date;
+            }
+
+            $results = $data;
         }
 
         return $results;

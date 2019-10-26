@@ -31,4 +31,29 @@ class ReportRepository implements ReportRepositoryInterface
     {
         return Report::playerInHouse($outletCd, $refdt1, $refdt2, $usrid, $type);
     }
+
+    public function outletRevenueAnalysis(string $date)
+    {
+        return Report::outletRevenueAnalysis($date);
+    }
+
+    public function fbTopSalesQty(string $month, string $year)
+    {
+        return Report::fbTopSalesQty($month, $year);
+    }
+
+    public function fbTopSalesAmount(string $month, string $year)
+    {
+        return Report::fbTopSalesAmount($month, $year);
+    }
+
+    public function ytdTopSalesQty(string $date, string $outlet)
+    {
+        return Report::ytdTopSalesQty($date, $outlet);
+    }
+
+    public function ytdTopSalesAmount(string $date, string $outlet)
+    {
+        return Report::ytdTopSalesAmount($date, $outlet);
+    }
 }
