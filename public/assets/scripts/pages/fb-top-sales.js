@@ -1,7 +1,7 @@
 var report = new Vue({
     data: {
         reports: null,
-        total_days: 31
+        month: null
     },
     methods: {
         refresh_report: function() {
@@ -12,10 +12,7 @@ var report = new Vue({
             var date = $("input[name=date]").data("datepicker");
             var month = date.getFormattedDate("mm");
             var year = date.getFormattedDate("yyyy");
-            report.total_days = moment(
-                date.getFormattedDate("mm/yyyy"),
-                "MM/YYYY"
-            ).daysInMonth();
+            report.month = moment(date.getFormattedDate("mm/yyyy"), "MM/YYYY");
 
             $.ajax({
                 url: url(`/report/fb-top-sales`),
@@ -30,6 +27,7 @@ var report = new Vue({
 
                     if (response.hasOwnProperty("data")) {
                         report.reports = response.data;
+                        report.table("fb-table");
 
                         $("#on-print").slideDown("slow", function() {
                             scrollTo($("#on-print"));
@@ -44,6 +42,55 @@ var report = new Vue({
                 }
             });
         },
+
+        table(id) {
+            const thead = $(`#${id}`);
+            thead.html("");
+            const reports = report.reports;
+            const days = report.month.daysInMonth();
+
+            for (var key in reports) {
+                var reportf = reports[key];
+                thead.append(
+                    `<tr><td colspan="${days +
+                        2}" class="bold">${key}</td></tr>`
+                );
+
+                for (var type in reportf) {
+                    var datas = reportf[type];
+                    thead.append(
+                        `<tr><td colspan="${days +
+                            2}" class="bold" style="padding-left: 40px"><u>${type}</u></td></tr>`
+                    );
+
+                    for (var desc in datas) {
+                        var data = datas[desc];
+                        var tr = `<tr><td style="padding-left: 40px">${desc}</td>`;
+
+                        for (var date = 1; date <= days; date++) {
+                            tr += `<td class="text-right">${
+                                data.data[date] != null
+                                    ? parseFloat(
+                                          data.data[date]
+                                      ).toLocaleString(undefined, {
+                                          maximumFractionDigits: 2
+                                      })
+                                    : 0
+                            }</td>`;
+                        }
+
+                        tr += `<td class="text-right">${parseFloat(
+                            data.total
+                        ).toLocaleString(undefined, {
+                            maximumFractionDigits: 2
+                        })}</td></tr>`;
+
+                        thead.append(tr);
+                    }
+                }
+            }
+        },
+
         print: function() {
             var date = $("input[name=date]")
                 .data("datepicker")

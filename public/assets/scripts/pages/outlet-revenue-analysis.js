@@ -103,7 +103,6 @@ var report = new Vue({
                 });
             });
 
-            console.log(series);
             Highcharts.chart(id, {
                 chart: {
                     type: "line"
@@ -142,8 +141,7 @@ $(document).ready(function() {
             orientation: "bottom",
             todayHighlight: true
         })
-        .datepicker("setDate", moment("02/01/2018").format("DD/MM/YYYY"));
-    // .datepicker("setDate", moment().format("DD/MM/YYYY"));
+        .datepicker("setDate", moment().format("DD/MM/YYYY"));
 
     setTimeout(() => {
         report.refresh_report();

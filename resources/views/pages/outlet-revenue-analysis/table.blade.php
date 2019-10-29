@@ -5,7 +5,7 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-table font-dark"></i>
-                    <span class="caption-subject bold uppercase font-dark">F/B Rank Sales</span>
+                    <span class="caption-subject bold uppercase font-dark">Outlet Revenue Analysis</span>
                 </div>
             </div>
             <div class="portlet-body table-scrollable" style="margin-bottom: 30px !important">

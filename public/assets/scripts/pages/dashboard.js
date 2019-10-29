@@ -45,6 +45,12 @@ var dashboard = new Vue({
                     from: moment().subtract(3, "year"),
                     to: moment(),
                     date_format: "YYYY"
+                },
+                "outlet-revenue-analysis": {
+                    seq: 5,
+                    title: "Yearly / Month",
+                    date: moment("01/04/2018", "DD/MM/YYYY"),
+                    date_format: "MM/YYYY"
                 }
             }
         }
@@ -59,12 +65,52 @@ var dashboard = new Vue({
                 }
             });
         },
+        "outlet-revenue-analysis": function() {
+            var func = arguments.callee.name;
+            var data = dashboard.chart.list[func];
+
+            dashboard.loading_down(func);
+
+            $.ajax({
+                url: url(`/report/outlet-revenue-analysis`),
+                type: "POST",
+                data: {
+                    date: data.date.format("MM/DD/YYYY")
+                },
+                success: function(response) {
+                    dashboard.loading_up(func);
+                    var subtitle = dashboard.subtitle({ data });
+
+                    if (!response.hasOwnProperty("data")) {
+                        dashboard.show_no_data({ id: func, data, subtitle });
+                        return;
+                    }
+
+                    var series = [];
+
+                    $.each(response.data.month.data, function(key, value) {
+                        series.push({
+                            name: key,
+                            data: value
+                        });
+                    });
+
+                    dashboard.line_chart({
+                        categories: response.data.time,
+                        series: series,
+                        id: func,
+                        title: data.title,
+                        subtitle
+                    });
+                }
+            });
+        },
         "day-of-week-guest-analysis": function() {
             var func = arguments.callee.name;
             var data = dashboard.chart.list[func];
             var outlet = dashboard.outlet[0];
 
-            loading_down(func);
+            dashboard.loading_down(func);
 
             $.ajax({
                 url: url("/report/day-of-week-guest-analysis"),
@@ -75,10 +121,16 @@ var dashboard = new Vue({
                     to: data.to.format("DD-MM-YYYY")
                 },
                 success: function(response) {
-                    loading_up(func);
+                    dashboard.loading_up(func);
+                    var subtitle = dashboard.subtitle({ outlet, data });
 
                     if (!response.hasOwnProperty("data")) {
-                        show_no_data(func, outlet, data);
+                        dashboard.show_no_data({
+                            id: func,
+                            outlet,
+                            data,
+                            subtitle
+                        });
                         return;
                     }
 
@@ -87,11 +139,11 @@ var dashboard = new Vue({
                         point.y = point[data.field];
                     });
 
-                    pie_chart({
+                    dashboard.pie_chart({
                         data: response.data,
                         id: func,
                         title: data.title,
-                        subtitle: subtitle(outlet, data)
+                        subtitle
                     });
                 }
             });
@@ -101,7 +153,7 @@ var dashboard = new Vue({
             var data = dashboard.chart.list[func];
             var outlet = dashboard.outlet[0];
 
-            loading_down(func);
+            dashboard.loading_down(func);
 
             $.ajax({
                 url: url("/report/weekly-guest-analysis"),
@@ -112,10 +164,16 @@ var dashboard = new Vue({
                     to: data.to.format("DD-MM-YYYY")
                 },
                 success: function(response) {
-                    loading_up(func);
+                    dashboard.loading_up(func);
+                    var subtitle = dashboard.subtitle({ outlet, data });
 
                     if (!response.hasOwnProperty("data")) {
-                        show_no_data(func, outlet, data);
+                        dashboard.show_no_data({
+                            id: func,
+                            outlet,
+                            data,
+                            subtitle
+                        });
                         return;
                     }
 
@@ -141,13 +199,13 @@ var dashboard = new Vue({
                         series.push(point);
                     });
 
-                    line_chart({
+                    dashboard.line_chart({
                         categories: categories,
                         series: series,
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: subtitle(outlet, data)
+                        subtitle
                     });
                 }
             });
@@ -157,7 +215,7 @@ var dashboard = new Vue({
             var data = dashboard.chart.list[func];
             var outlet = dashboard.outlet[0];
 
-            loading_down(func);
+            dashboard.loading_down(func);
 
             $.ajax({
                 url: url("/report/monthly-guest-analysis"),
@@ -170,10 +228,16 @@ var dashboard = new Vue({
                     to_year: data.to.format("YYYY")
                 },
                 success: function(response) {
-                    loading_up(func);
+                    dashboard.loading_up(func);
+                    var subtitle = dashboard.subtitle({ outlet, data });
 
                     if (!response.hasOwnProperty("data")) {
-                        show_no_data(func, outlet, data);
+                        dashboard.show_no_data({
+                            id: func,
+                            outlet,
+                            data,
+                            subtitle
+                        });
                         return;
                     }
 
@@ -201,13 +265,13 @@ var dashboard = new Vue({
                         series.push(point);
                     });
 
-                    line_chart({
+                    dashboard.line_chart({
                         categories: categories,
                         series: series,
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: subtitle(outlet, data)
+                        subtitle
                     });
                 }
             });
@@ -217,7 +281,7 @@ var dashboard = new Vue({
             var data = dashboard.chart.list[func];
             var outlet = dashboard.outlet[0];
 
-            loading_down(func);
+            dashboard.loading_down(func);
 
             $.ajax({
                 url: url("/report/yearly-guest-analysis"),
@@ -228,10 +292,16 @@ var dashboard = new Vue({
                     to: data.to.format("YYYY")
                 },
                 success: function(response) {
-                    loading_up(func);
+                    dashboard.loading_up(func);
+                    var subtitle = dashboard.subtitle({ outlet, data });
 
                     if (!response.hasOwnProperty("data")) {
-                        show_no_data(func, outlet, data);
+                        dashboard.show_no_data({
+                            id: func,
+                            outlet,
+                            data,
+                            subtitle
+                        });
                         return;
                     }
 
@@ -255,16 +325,116 @@ var dashboard = new Vue({
                         series.push(point);
                     });
 
-                    line_chart({
+                    dashboard.line_chart({
                         categories: categories,
                         series: series,
                         id: func,
                         hint: data.hint,
                         title: data.title,
-                        subtitle: subtitle(outlet, data)
+                        subtitle
                     });
                 }
             });
+        },
+
+        pie_chart: function(data) {
+            Highcharts.chart(data.id, {
+                chart: {
+                    type: "pie"
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    text: data.subtitle
+                },
+                tooltip: {
+                    pointFormat: "<b>{point.y}</b> ({point.percentage:.2f}%)"
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: "pointer",
+                        dataLabels: {
+                            enabled: true,
+                            format:
+                                "<b>{point.name}</b>: {point.percentage:.2f}%"
+                        }
+                    }
+                },
+                series: [
+                    {
+                        colorByPoint: true,
+                        data: data.data
+                    }
+                ]
+            });
+        },
+        line_chart: function(data) {
+            Highcharts.chart(data.id, {
+                chart: {
+                    type: "line"
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: data.title
+                },
+                subtitle: {
+                    text: data.subtitle
+                },
+                xAxis: {
+                    categories: data.categories
+                },
+                yAxis: {
+                    title: {
+                        text: data.hint
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        cursor: "pointer"
+                    }
+                },
+                series: data.series
+            });
+        },
+        show_no_data: function(params) {
+            var no_data = $(`#${params.id}`).find(".no-data");
+            no_data.find(".title").html(params.data.title);
+            no_data.find(".subtitle").html(params.subtitle);
+            no_data.slideDown("slow");
+        },
+
+        subtitle: function(params) {
+            if (params.data.date != null) {
+                date = `${params.data.date.format(params.data.date_format)}`;
+            } else {
+                date = `${params.data.from.format(
+                    params.data.date_format
+                )} - ${params.data.to.format(params.data.date_format)}`;
+            }
+
+            if (params.outlet != null) {
+                subtitle = `${params.outlet.outletnm} (${date})`;
+            } else {
+                subtitle = `${date}`;
+            }
+
+            return subtitle;
+        },
+
+        loading_down: function(func) {
+            $(`.${func}`).slideDown("slow");
+            $(`#${func}`).slideUp("slow");
+        },
+        loading_up: function(func) {
+            $(`.${func}`).slideUp("slow");
+            $(`#${func}`).slideDown("slow");
         }
     }
 });
@@ -291,93 +461,3 @@ $(document).ready(function() {
         }
     }, 1000);
 });
-
-var pie_chart = function(data) {
-    Highcharts.chart(data.id, {
-        chart: {
-            type: "pie"
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: data.title
-        },
-        subtitle: {
-            text: data.subtitle
-        },
-        tooltip: {
-            pointFormat: "<b>{point.y}</b> ({point.percentage:.2f}%)"
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: "pointer",
-                dataLabels: {
-                    enabled: true,
-                    format: "<b>{point.name}</b>: {point.percentage:.2f}%"
-                }
-            }
-        },
-        series: [
-            {
-                colorByPoint: true,
-                data: data.data
-            }
-        ]
-    });
-};
-
-var line_chart = function(data) {
-    Highcharts.chart(data.id, {
-        chart: {
-            type: "line"
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: data.title
-        },
-        subtitle: {
-            text: data.subtitle
-        },
-        xAxis: {
-            categories: data.categories
-        },
-        yAxis: {
-            title: {
-                text: data.hint
-            }
-        },
-        plotOptions: {
-            line: {
-                cursor: "pointer"
-            }
-        },
-        series: data.series
-    });
-};
-
-var show_no_data = function(id, outlet, data) {
-    var no_data = $(`#${id}`).find(".no-data");
-    no_data.find(".title").html(data.title);
-    no_data.find(".subtitle").html(subtitle(outlet, data));
-    no_data.slideDown("slow");
-};
-
-var subtitle = function(outlet, data) {
-    return `${outlet.outletnm} (${data.from.format(
-        data.date_format
-    )} - ${data.to.format(data.date_format)})`;
-};
-
-var loading_down = function(func) {
-    $(`.${func}`).slideDown("slow");
-    $(`#${func}`).slideUp("slow");
-};
-
-var loading_up = function(func) {
-    $(`.${func}`).slideUp("slow");
-    $(`#${func}`).slideDown("slow");
-};

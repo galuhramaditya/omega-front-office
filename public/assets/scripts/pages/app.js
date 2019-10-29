@@ -59,14 +59,16 @@ var app = new Vue({
                     "/assets/css/print.css"
                 )}" rel="stylesheet" type="text/css" />`
             );
-            doc.document.write("</head><body>");
-            doc.document.write($("#on-print").html());
-            doc.document.write("</body></html>");
-            doc.document.title = `${app.user.conm} | ${title}`;
-
             setTimeout(function() {
-                doc.print();
-                doc.close();
+                doc.document.write("</head><body>");
+                doc.document.write($("#on-print").html());
+                doc.document.write("</body></html>");
+                doc.document.title = `${app.user.conm} | ${title}`;
+
+                setTimeout(function() {
+                    doc.print();
+                    doc.close();
+                }, 0);
             }, 0);
         }
     }
