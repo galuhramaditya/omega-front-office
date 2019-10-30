@@ -96,7 +96,7 @@ var dashboard = new Vue({
                     });
 
                     dashboard.line_chart({
-                        categories: response.data.time,
+                        categories: response.data.month.time,
                         series: series,
                         id: func,
                         title: data.title,
