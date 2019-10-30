@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Contracts\ReportRepositoryInterface;
+use App\CustomConfig;
 use DateTime;
 
 class ReportService
@@ -292,8 +293,8 @@ class ReportService
         $results = $this->reportRepository->{"fbTopSales$type"}($month, $year);
 
         if ($results) {
-            $grp1 = ["Resto", "Kios/Halfway", "Driving", "Sunset Bar"];
-            $grp2 = ["Cover", "Food", "Snack", "Beverages", "Others"];
+            $grp1 = CustomConfig::$grp1;
+            $grp2 = CustomConfig::$grp2;
 
             $data = [];
 

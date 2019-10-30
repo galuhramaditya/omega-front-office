@@ -49,7 +49,7 @@ var dashboard = new Vue({
                 "outlet-revenue-analysis": {
                     seq: 5,
                     title: "Yearly / Month",
-                    date: moment("01/04/2018", "DD/MM/YYYY"),
+                    date: moment(),
                     date_format: "MM/YYYY"
                 }
             }
