@@ -299,8 +299,15 @@ class ReportService
             $data = [];
 
             foreach ($results as $result) {
-                $key = $grp1[$result->Grp1 - 1];
-                $subkey = $grp2[$result->Grp2 - 1];
+                $grp = collect(["grp1" => $result->Grp1, "grp2" => $result->Grp2])->map(function ($value, $key) use ($grp1, $grp2) {
+                    if ($value > count(${$key}["data"])) {
+                        return ${$key}["else"];
+                    }
+                    return ${$key}["data"][$value - 1];
+                });
+
+                $key = $grp["grp1"];
+                $subkey = $grp["grp2"];
                 $title = $result->ServNm;
                 $date = (int) date_format(new DateTime($result->RefDt), "d");
 
@@ -335,9 +342,9 @@ class ReportService
 
             foreach ($results as $result) {
                 $subkey = $result->categ;
-                $ytd = (float) $result->tyearly;
-                $mtd = (float) $result->tmonthly;
-                $date = (float) $result->tasdate;
+                $ytd = (int) $result->tyearly;
+                $mtd = (int) $result->tmonthly;
+                $date = (int) $result->tasdate;
 
                 if (!isset($data[$key]["data"][$subkey])) {
                     $data[$key]["data"][$subkey] = [
