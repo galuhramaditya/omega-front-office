@@ -31,8 +31,8 @@
                         <tr style="border-top: 2px solid black">
                             <td> Grand Total </td>
                             <td class="text-right">@{{parseFloat(report.reports.date.tasdate).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
-                            <td class="text-right">@{{parseFloat(report.reports.date.tmonthly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                             <td class="text-right">@{{parseFloat(report.reports.date.tweekly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
+                            <td class="text-right">@{{parseFloat(report.reports.date.tmonthly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                             <td class="text-right">@{{parseFloat(report.reports.date.tyearly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                         </tr>
                     </tbody>
