@@ -24,8 +24,8 @@
                         <tr v-for="data in report.reports.date.data" v-show="data.tasdate || data.tmonthly || data.tweekly || data.tyearly">
                             <td>@{{data.descp}}</td>
                             <td class="text-right">@{{parseFloat(data.tasdate).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
-                            <td class="text-right">@{{parseFloat(data.tmonthly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                             <td class="text-right">@{{parseFloat(data.tweekly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
+                            <td class="text-right">@{{parseFloat(data.tmonthly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                             <td class="text-right">@{{parseFloat(data.tyearly).toLocaleString(undefined, { maximumFractionDigits: 2 })}}</td>
                         </tr>
                         <tr style="border-top: 2px solid black">
