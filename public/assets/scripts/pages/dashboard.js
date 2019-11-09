@@ -30,9 +30,7 @@ var dashboard = new Vue({
                     hint: "amount",
                     based_on: "player_status",
                     by: "amount",
-                    from: moment()
-                        .startOf("year")
-                        .add(1, "month"),
+                    from: moment().startOf("year"),
                     to: moment(),
                     date_format: "MM/YYYY"
                 },
